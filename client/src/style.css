@@ -1,0 +1,59 @@
+body {
+    background:linear-gradient(to right, #4b2e83, #6e48aa);
+    font-family: "Slabo 40px", serif;
+    height: 100%;
+    margin: 0;
+}
+html {
+    height: 100%;
+}
+
+.form-title {
+    color: #4b2e83;
+    margin-bottom: 0; 
+    font-size: 32px; 
+    text-align: center;
+}
+
+.form-step-title {
+    color: #4b2e83;
+    display: inline;
+}
+
+.step-label {
+    margin: 0;
+    float: right;
+}
+
+
+.form {
+    background-color: white;  
+    margin-top: 10rem;
+    padding: 2rem;
+}
+
+.member-group {
+    background-image: linear-gradient(#efefef, #eee);
+    outline: 1px solid gray;
+    padding: 1rem;
+}
+
+.next-button {
+    margin-bottom: 5%;
+}
+
+@media only screen and (max-width: 600px) {
+    .form {
+        padding: 1rem;
+        margin-top: 5rem;
+        margin-bottom: 2rem;
+    }
+    .form-title {
+        font-size: 27px;
+    }
+}
+
+
+
+
+
