@@ -8,9 +8,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(__dirname, 'client/build'));
+    app.use(express.static('client/build'));
     app.get('*', (req, res) => {    
-        res.sendfile(path.resolve(__dirname, 'client', 'build', 'index.html'))});
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))});
 
 app.post("/users", function(req, res) {
     console.log(req.body);
@@ -19,10 +19,5 @@ app.post("/users", function(req, res) {
 
 });
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
 
-
-
-app.listen(process.env.PORT, () => console.log("Server has started!"));
+app.listen(port, () => console.log("Server has started!"));
