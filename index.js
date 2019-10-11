@@ -2,10 +2,15 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 const path = require("path");
+const port = process.env.PORT || 3001;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname, "client", "build")))
 
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(__dirname, 'client/build'));
+    app.get('*', (req, res) => {    
+        res.sendfile(path.resolve(__dirname, 'client', 'build', 'index.html'))});
 
 app.post("/users", function(req, res) {
     console.log(req.body);
