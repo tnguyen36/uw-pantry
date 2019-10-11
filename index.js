@@ -1,9 +1,10 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-
+const path = require("path");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static(path.join(__dirname, "client", "build")))
 
 
 app.post("/users", function(req, res) {
@@ -13,6 +14,10 @@ app.post("/users", function(req, res) {
 
 });
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 
-app.listen(3001, () => console.log("Server has started!"));
+
+app.listen(process.env.PORT, () => console.log("Server has started!"));
