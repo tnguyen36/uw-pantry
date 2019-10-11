@@ -30,6 +30,7 @@ html {
     background-color: white;  
     margin-top: 10rem;
     padding: 2rem;
+    outline: 10px double aliceblue;
 }
 
 .member-group {

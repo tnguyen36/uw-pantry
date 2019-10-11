@@ -46,8 +46,8 @@ class FormWizard extends React.Component {
                 <Container maxWidth="md">
                     <div className="form">
                         <Grid container direction="column" justify="center" alignItems="center">
-                        <h2 className="form-title">STUDENT INITIAL USAGE</h2>
-                        <h4 className="form-subtitle">Fill all form field to go to next step</h4>
+                        <h2 className="form-title">Student Initial Usage</h2>
+                        <h4 className="form-subtitle">Fill all form fields to continue</h4>
                         
                         <FormStepper activeStep={this.state.page - 1} />
                         {page === 1 && <AccountForm onSubmit={this.nextPage} />}
