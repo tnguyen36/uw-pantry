@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
-  },
-  "engines": {
-    "node": "10.15.3"
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "client": "npm start --prefix client"
   },
   "author": "",
   "license": "ISC",
