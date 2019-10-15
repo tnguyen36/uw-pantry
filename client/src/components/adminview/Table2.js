@@ -49,23 +49,23 @@ class Table2 extends React.Component {
                 options={{
                     exportButton: true
                 }}
-                detailPanel={rowData => {
+                // detailPanel={rowData => {
                     
-                    return rowData.members.map(link => {
-                        return (
+                //     return rowData.members.map(link => {
+                //         return (
                             
-                                <Breadcrumbs separator=">" aria-label="breadcrumb">
-                              <h4>{link.firstName}</h4>
-                              <h4>{link.race}</h4>
-                              <h4>{link.birthDay}</h4>
-                                </Breadcrumbs>
+                //                 <Breadcrumbs separator=">" aria-label="breadcrumb">
+                //               <h4>{link.firstName}</h4>
+                //               <h4>{link.race}</h4>
+                //               <h4>{link.birthDay}</h4>
+                //                 </Breadcrumbs>
                            
-                        );
+                //         );
                             
                     
                    
                    
-                })}}
+                // })}}
                 />
         )
     }
