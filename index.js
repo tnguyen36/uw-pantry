@@ -15,10 +15,6 @@ mongoose.connect(databaseUri, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Database connected"))
     .catch(err => console.log("Database connection error: " + err.message));
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
-    app.get('*', (req, res) => {    
-        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))})};
 
 app.post("/users", function(req, res) {
     User.create(req.body, function(err, user) {
@@ -39,6 +35,12 @@ app.get("/users", function(req, res) {
         }
     })
 })
+
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+    app.get('*', (req, res) => {    
+        res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))})};
+
 
 
 app.listen(port, () => console.log("Server has started!"));
