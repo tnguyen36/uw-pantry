@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
         } 
         return(
             <div>
-                <AdminContent userList={this.props.users[0]} />
+                <AdminContent />
             </div>
         );
     }

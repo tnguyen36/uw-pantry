@@ -11,9 +11,16 @@ import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Clear from '@material-ui/icons/Clear';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import moment from 'moment';
+import { connect } from 'react-redux';
+import { fetchUsers } from '../../actions';
 
 
 class Table2 extends React.Component {
+
+    componentDidMount() {
+        this.props.fetchUsers();
+    }
+
     iconsList() {
         return {
             FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -31,6 +38,11 @@ class Table2 extends React.Component {
 
     
     render() {
+        if (!this.props.users) {
+            return <div>Loading</div>
+        } else {
+
+        
         return (
             <MaterialTable
                 title="User Table"
@@ -44,31 +56,37 @@ class Table2 extends React.Component {
                     {title: 'Class Standing', field: 'classStanding'},
                     {title: 'Military', field: 'military'}
                 ]}
-                data={this.props.userList}
+                data={this.props.users[0]}
                 icons={this.iconsList()}
                 options={{
                     exportButton: true
                 }}
-                // detailPanel={rowData => {
+                detailPanel={rowData => {
                     
-                //     return rowData.members.map(link => {
-                //         return (
+                    return rowData.members.map(link => {
+                        return (
                             
-                //                 <Breadcrumbs separator=">" aria-label="breadcrumb">
-                //               <h4>{link.firstName}</h4>
-                //               <h4>{link.race}</h4>
-                //               <h4>{link.birthDay}</h4>
-                //                 </Breadcrumbs>
+                                <Breadcrumbs separator=">" aria-label="breadcrumb">
+                              <h4>{link.firstName}</h4>
+                              <h4>{link.race}</h4>
+                              <h4>{link.birthDay}</h4>
+                                </Breadcrumbs>
                            
-                //         );
+                        );
                             
                     
                    
                    
-                // })}}
+                })}}
                 />
-        )
+        )}
     }
 }
 
-export default Table2;
+const mapStateToProps = state => {
+    return ({
+        users: state.users
+    });
+}
+
+export default connect(mapStateToProps, {fetchUsers}) (Table2);

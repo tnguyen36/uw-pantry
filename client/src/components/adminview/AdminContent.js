@@ -16,7 +16,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItem';
-import Table from './Table';
 import Table2 from './Table2';
 
 const drawerWidth = 240;
@@ -161,7 +160,7 @@ const AdminContent = (props) => {
             <Grid item xs={12} md={8} lg={12}>
               {/* <div className={fixedHeightPaper}> */}
                 {/* <Table userList={props.userList} /> */}
-                <Table2 userList={props.userList} />
+                <Table2 />
               {/* </div> */}
             </Grid>
             </Grid>
