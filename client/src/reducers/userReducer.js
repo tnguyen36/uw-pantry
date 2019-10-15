@@ -1,7 +1,9 @@
-export default (state={}, action) => {
+export default (state=[], action) => {
     switch(action.type) {
         case 'CREATE_USER':
-            return {...state, [action.payload.id]: action.payload};
+            return [...state, action.payload];
+        case 'FETCH_USERS':
+            return [...state, action.payload];
         default:
             return state;
     }

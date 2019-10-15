@@ -1,11 +1,13 @@
 import React from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
-import renderField from './renderField';
+import renderField from './fields/renderField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import renderMemberFields from './renderMemberFields';
+import renderMemberFields from './fields/renderMemberFields';
 import { makeStyles } from '@material-ui/core/styles';
+import validate from '../formValidation';
 import '../style.css';
+
 
 const styles = makeStyles(theme => ({
     root: {
@@ -45,11 +47,13 @@ const HouseholdForm = (props) => {
                     </Grid>
                 </form>
                 
+                
         </div>
     )
 }
 
 export default reduxForm({
     form: 'userForm',
-    destroyOnUnmount: false
+    destroyOnUnmount: false,
+    validate
 }) (HouseholdForm);

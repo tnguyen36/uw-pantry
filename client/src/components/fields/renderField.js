@@ -7,6 +7,7 @@ const renderField = ({input, label, type, meta: {touched, error}}) => {
     <div>
         <TextField
             label={label}
+            error={touched && error}
             type={type}
             margin="dense"
             variant="outlined"
@@ -14,10 +15,10 @@ const renderField = ({input, label, type, meta: {touched, error}}) => {
             InputLabelProps={{
                 shrink: true,
               }}
-            // required
+            required
             {...input}
         />
-        
+        {error}
     </div>
     );
 }

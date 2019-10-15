@@ -6,9 +6,9 @@ import { Field } from 'redux-form';
 import PersonAddSharpIcon from '@material-ui/icons/PersonAddSharp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { races } from './selectvalues/raceSelectorValues';
+import { races } from '../selectvalues/raceSelectorValues';
 import Grid from '@material-ui/core/Grid';
-import '../style.css';
+import '../../style.css';
 
 const renderMemberFields = ({ fields, meta: { error, submitFailed }}) => (
       <div>

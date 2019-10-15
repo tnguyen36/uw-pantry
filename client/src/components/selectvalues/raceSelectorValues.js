@@ -4,24 +4,28 @@ export const races = [
         label: 'Asian',
     },
     {
-        value: 'Black/African',
-        label: 'Black/African',
+        value: 'Black/African American',
+        label: 'Black/African American',
     },
     {
-        value: 'Caucasian',
-        label: 'Caucasian',
+        value: 'White',
+        label: 'White',
     },
     {
-        value: 'Hispanic/Latino',
-        label: 'Hispanic/Latino',
+        value: 'Latinx',
+        label: 'Latinx',
     },
     {
-        value: 'Native American',
-        label: 'Native American',
+        value: 'Alaska Native/Native American',
+        label: 'Alaska Native/Native American',
     },
     {
-        value: 'Pacific Islander',
-        label: 'Pacific Islander',
+        value: 'Native Hawaiian/Pacific Islander',
+        label: 'Native Hawaiian/Pacific Islander',
+    },
+    {
+        value: 'Multi-Racial',
+        label: 'Multi-Racial',
     },
     {
         value: 'Other',

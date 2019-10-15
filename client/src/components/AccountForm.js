@@ -1,11 +1,13 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import renderField from './renderField';
+import renderField from './fields/renderField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { classStanding } from './selectvalues/classSelectorValues';
-import renderSelectField from './renderSelectField';
+import renderSelectField from './fields/renderSelectField';
+import validate from '../formValidation';
 import '../style.css';
+
 
 const AccountForm = (props) => {
     const { handleSubmit } = props;
@@ -47,5 +49,5 @@ const AccountForm = (props) => {
 export default reduxForm({
     form: 'userForm',
     destroyOnUnmount: false,
-    // validate
+    validate
 })(AccountForm);

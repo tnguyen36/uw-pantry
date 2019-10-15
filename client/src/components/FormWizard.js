@@ -4,9 +4,11 @@ import PersonalForm from './PersonalForm';
 import HouseholdForm from './HouseholdForm';
 import FormStepper from './FormStepper';
 import { connect } from 'react-redux';
-import { createUser } from '../actions';
+import { createUser, offSnackBar } from '../actions';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import SnackBar from './SnackBar';
+import Header from './Header';
 import '../style.css';
 
 
@@ -18,6 +20,7 @@ class FormWizard extends React.Component {
         this.state = {
             page: 1
         }
+        this.error = this.props.error;
     }
 
     nextPage = () => {
@@ -28,13 +31,10 @@ class FormWizard extends React.Component {
         this.setState({ page: this.state.page - 1});
     }
 
-    onSubmit = (formValues) => {
-        console.log(formValues);
+    onSubmit = (formValues) => {    
        this.props.createUser(formValues);
+      
     }
-
-    
-
 
     render() {
         const { page } = this.state;
@@ -42,7 +42,7 @@ class FormWizard extends React.Component {
         
         return (
             <div>
-                
+                <Header />
                 <Container maxWidth="md">
                     <div className="form">
                         <Grid container direction="column" justify="center" alignItems="center">
@@ -56,9 +56,16 @@ class FormWizard extends React.Component {
                         </Grid>
                     </div>
                 </Container>
+                {this.props.error.toggleSnackBar && <SnackBar offSnackBar={this.props.offSnackBar} variant={this.props.error.variant} />}
             </div>
         );
     }
 }
 
-export default connect(null, {createUser}) (FormWizard);
+const mapStateToProps = state => {
+    return ({
+        error: state.error
+    })
+}
+
+export default connect(mapStateToProps, {createUser, offSnackBar}) (FormWizard);

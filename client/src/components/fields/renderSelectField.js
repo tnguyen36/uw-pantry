@@ -10,6 +10,7 @@ const renderSelectField = ({input, label, type, meta: {touched, error}, selectVa
         <TextField
             label={label}
             select
+            error={touched && error}
             placeholder="Select One"
             margin="dense"
             variant="outlined"
@@ -17,7 +18,7 @@ const renderSelectField = ({input, label, type, meta: {touched, error}, selectVa
             InputLabelProps={{
                 shrink: true,
               }}
-            // required
+            required
             {...input}
         >
         {selectValues.map(option => (
@@ -25,7 +26,6 @@ const renderSelectField = ({input, label, type, meta: {touched, error}, selectVa
                 {option.label}
             </MenuItem>))}
         </TextField>
-        
     </div>
     );
 }

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import renderField from './renderField';
+import renderField from './fields/renderField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import renderSelectField from './renderSelectField';
+import renderSelectField from './fields/renderSelectField';
 import { races } from './selectvalues/raceSelectorValues';
 import { militaryAffiliation } from './selectvalues/militarySelectorValues';
 import { makeStyles } from '@material-ui/core/styles';
+import validate from '../formValidation';
 import '../style.css';
 
 const styles = makeStyles(theme => ({
@@ -60,5 +61,6 @@ const PersonalForm = (props) => {
 
 export default reduxForm({
     form: 'userForm',
-    destroyOnUnmount: false
+    destroyOnUnmount: false,
+    validate
 }) (PersonalForm);
