@@ -15,7 +15,8 @@ import { connect } from 'react-redux';
 import { fetchUsers } from '../../actions';
 
 
-class Table2 extends React.Component {
+
+class Table extends React.Component {
 
     componentDidMount() {
         this.props.fetchUsers();
@@ -56,27 +57,22 @@ class Table2 extends React.Component {
                     {title: 'Class Standing', field: 'classStanding'},
                     {title: 'Military', field: 'military'}
                 ]}
-                data={this.props.users[0]}
+                data={this.props.users}
                 icons={this.iconsList()}
                 options={{
                     exportButton: true
                 }}
                 detailPanel={rowData => {
                     
-                    return rowData.members.map(link => {
+                    return rowData.members.map((link, index) => {
                         return (
                             
-                                <Breadcrumbs separator=">" aria-label="breadcrumb">
+                            <Breadcrumbs separator=">" key={index} aria-label="breadcrumb">
                               <h4>{link.firstName}</h4>
                               <h4>{link.race}</h4>
                               <h4>{link.birthDay}</h4>
-                                </Breadcrumbs>
-                           
-                        );
-                            
-                    
-                   
-                   
+                                </Breadcrumbs>                          
+                        );                  
                 })}}
                 />
         )}
@@ -85,8 +81,8 @@ class Table2 extends React.Component {
 
 const mapStateToProps = state => {
     return ({
-        users: state.users
+        users: Object.values(state.users)
     });
 }
 
-export default connect(mapStateToProps, {fetchUsers}) (Table2);
+export default connect(mapStateToProps, {fetchUsers}) (Table);

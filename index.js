@@ -21,7 +21,7 @@ app.post("/users", function(req, res) {
         if (err) {
             res.send(err);
         } else {
-            res.send(req.body);
+            res.send(user);
         }
     })
 });
@@ -34,6 +34,16 @@ app.get("/users", function(req, res) {
             res.send(users);
         }
     })
+});
+
+app.get("/users/class", function(req, res) {
+    User.aggregate([{$group: {_id:"$classStanding", total: {"$sum":1}}}], function(err, classStandings) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(classStandings);
+        }
+    });
 })
 
 if (process.env.NODE_ENV === 'production') {

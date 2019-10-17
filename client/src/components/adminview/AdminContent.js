@@ -16,7 +16,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItem';
-import Table2 from './Table2';
+import Table from './Table';
+import PieChart from './PieChart';
+import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 
 const drawerWidth = 240;
 
@@ -98,10 +101,16 @@ const useStyles = makeStyles(theme => ({
   fixedHeight: {
     height: 340,
   },
+  background: {
+    backgroundColor: 'white'
+  },
+  headerButton: {
+    outline: '1px solid white',
+    color: 'white'
+  }
 }));
 
 const AdminContent = (props) => {
-  
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -127,12 +136,8 @@ const AdminContent = (props) => {
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
-          </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          </Typography>         
+          <Link style={{textDecoration: 'none'}} to="/"><Button className={classes.headerButton}>Sign Out</Button></Link>        
         </Toolbar>
       </AppBar>
       <Drawer
@@ -156,11 +161,13 @@ const AdminContent = (props) => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
+            <Grid className={classes.background} item xs={12} md={5} lg={5}>
+            <PieChart classStandingsLabels={props.classStandingsLabels} classStandingsValues={props.classStandingsValues} />
+            </Grid>
             <Grid item xs={12} md={8} lg={12}>
               {/* <div className={fixedHeightPaper}> */}
                 {/* <Table userList={props.userList} /> */}
-                <Table2 />
+                <Table />
               {/* </div> */}
             </Grid>
             </Grid>
