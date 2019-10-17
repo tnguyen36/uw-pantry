@@ -9,17 +9,16 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItem';
 import Table from './Table';
 import PieChart from './PieChart';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
+import LineGraph from './LineGraph';
 
 const drawerWidth = 240;
 
@@ -161,9 +160,13 @@ const AdminContent = (props) => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            <Grid className={classes.background} item xs={12} md={5} lg={5}>
+            <Grid className={classes.background} item xs={12} md={5} lg={6}>
             <PieChart classStandingsLabels={props.classStandingsLabels} classStandingsValues={props.classStandingsValues} />
             </Grid>
+            <Grid className={classes.background} item xs={12} md={5} lg={6}>
+              <LineGraph dateGroups={props.dateGroups} />
+            </Grid>
+            
             <Grid item xs={12} md={8} lg={12}>
               {/* <div className={fixedHeightPaper}> */}
                 {/* <Table userList={props.userList} /> */}

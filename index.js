@@ -46,6 +46,16 @@ app.get("/users/class", function(req, res) {
     });
 })
 
+app.get("/users/dates", function(req, res) {
+    User.aggregate([{"$group":{"_id":{"$month":"$birthDate"},"total":{"$sum":1}}}, {"$sort":{"_id":1}}], function(err, dateGroups) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(dateGroups);
+        }
+    })
+});
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
     app.get('*', (req, res) => {    

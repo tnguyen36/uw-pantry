@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _ from 'lodash';
+
 
 
 
@@ -23,6 +23,11 @@ export const fetchClassStandings = () => async dispatch => {
     const response = await axios.get('/users/class');
     console.log(response.data);
     dispatch({type: 'FETCH_CLASS_STANDINGS', payload: response.data});
+}
+
+export const fetchDateGroups = () => async dispatch => {
+    const response = await axios.get('/users/dates');
+    dispatch({type: 'FETCH_DATE_GROUPS', payload: response.data});
 }
 
 export const offSnackBar = () => {

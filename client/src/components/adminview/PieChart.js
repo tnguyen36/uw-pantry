@@ -28,12 +28,16 @@ export default function PieChart(props) {
             backgroundColor: [
             '#FF6384',
             '#36A2EB',
-            '#FFCE56'
+            '#FFCE56',
+            '#00ff99',
+            '#6e48aa'
             ],
             hoverBackgroundColor: [
             '#FF6384',
             '#36A2EB',
-            '#FFCE56'
+            '#FFCE56',
+            '#00ff99',
+            '#6e48aa'
             ]
         }]
     };
