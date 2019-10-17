@@ -22,7 +22,7 @@ const options = {
 function getDataSet(dateGroups) {
     var result = [0,0,0,0,0,0,0,0,0,0,0,0];
     for (var i = 0; i < dateGroups.length; i++) {
-        result[dateGroups[i]._id] = dateGroups[i].total
+        result[dateGroups[i]._id - 1] = dateGroups[i].total
     }
     console.log(result);
     
