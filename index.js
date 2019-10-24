@@ -3,7 +3,7 @@ var app = express();
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var User = require("./models/user");
-
+var moment = require("moment");
 const path = require("path");
 const port = process.env.PORT || 3001;
 
@@ -46,6 +46,16 @@ app.get("/users/class", function(req, res) {
     });
 })
 
+app.get("/users/ethnicity", function(req, res) {
+    User.aggregate([{$group: {_id:"$ethnicity", total: {"$sum":1}}}], function(err, ethnicities) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(ethnicities);
+        }
+    });
+})
+
 app.get("/users/dates", function(req, res) {
     User.aggregate([{"$group":{"_id":{"$month":"$birthDate"},"total":{"$sum":1}}}, {"$sort":{"_id":1}}], function(err, dateGroups) {
         if (err) {
@@ -55,6 +65,35 @@ app.get("/users/dates", function(req, res) {
         }
     })
 });
+
+app.get("/users/daily", function(req, res) {
+    User.find({registerDate: {$gt: moment().startOf("day"), $lt: moment().endOf("day")}}, function(err, dailyUsers) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(dailyUsers)
+        }
+        
+    });
+});
+
+app.post("/users/transfer", function (req, res) {
+   User.updateMany({_id: {$in: req.body}}, {$set: {"status" : "Completed"}}, function (err) {
+       if (err) {
+           console.log(err);
+       } else {
+           User.find({}, function(err, users) {
+               if (err) {
+                   console.log(err);
+               } else {
+                   res.send(users)
+               }
+           });
+       }
+   });   
+});
+
+
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));

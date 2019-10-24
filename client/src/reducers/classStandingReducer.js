@@ -1,6 +1,5 @@
 
-
-export default (state = {}, action) => {
+export default (state = [0], action) => {
     switch (action.type) {
         case 'FETCH_CLASS_STANDINGS':
             return action.payload

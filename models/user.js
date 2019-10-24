@@ -9,12 +9,20 @@ var userSchema = new mongoose.Schema({
         unique: true
     },
     birthDate: Date,
+    registerDate: {
+        type: Date,
+        default: Date.now
+    },
     classStanding: String,
     address: String,
     city: String,
     zipCode: String,
     ethnicity: String,
     military: String,
+    status: {
+        type: String,
+        default: "Pending"
+    },
     householdNumber: Number,
     members: [{
         firstName: String,

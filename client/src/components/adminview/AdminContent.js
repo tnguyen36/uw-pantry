@@ -1,85 +1,19 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItem';
-import Table from './Table';
 import PieChart from './PieChart';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
 import LineGraph from './LineGraph';
+import StatCard from './StatCard';
+import Paper from '@material-ui/core/Paper';
+import DashHeader from './DashHeader';
 
-const drawerWidth = 240;
+
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-  },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -97,82 +31,73 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     flexDirection: 'column',
   },
-  fixedHeight: {
-    height: 340,
+  fixedHeightChart: {
+    height: 350,
   },
-  background: {
-    backgroundColor: 'white'
+  fixedHeightStat: {
+    height: 120,
+    outline: '1px ridge black',
+    boxShadow: '6px 11px 41px -28px #a99de7',
+    
   },
-  headerButton: {
-    outline: '1px solid white',
-    color: 'white'
-  }
+  fixedHeightLine: {
+    height: 620
+  },
 }));
 
 const AdminContent = (props) => {
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeightChart);
+    const fixedHeightStat = clsx(classes.paper, classes.fixedHeightStat);
+    const fixedHeightLine = clsx(classes.paper, classes.fixedHeightLine);
    
     return (
       <div className={classes.root}>
-          <CssBaseline />
-          <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-          <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
-          </Typography>         
-          <Link style={{textDecoration: 'none'}} to="/"><Button className={classes.headerButton}>Sign Out</Button></Link>        
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>    
-      <main className={classes.content}>
+      <DashHeader toggleDrawer={props.toggleDrawer} drawerStatus={props.drawerStatus} title={"Dashboard"} />
+      <main className={classes.content} onClick={() => props.toggleDrawer(true)}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid className={classes.background} item xs={12} md={5} lg={6}>
-            <PieChart classStandingsLabels={props.classStandingsLabels} classStandingsValues={props.classStandingsValues} />
+          <Grid container spacing={3} direction="row">
+          <Grid className={classes.background} item xs={6} md={4} lg={3}>
+            <Paper style={{backgroundImage: 'linear-gradient(230deg, #759bff, #843cf6)'}} className={fixedHeightStat}>
+            <StatCard values={props.classStandingsValues} label={"Total Users"} />
+            </Paper>
             </Grid>
+            <Grid className={classes.background} item xs={6} md={4} lg={3}>
+              <Paper style={{backgroundImage: 'linear-gradient(230deg, #fc5286, #fbaaa2)'}} className={fixedHeightStat}>
+            <StatCard label={"Daily Users"} values={props.dailyUsers} />
+              </Paper>
+            </Grid>
+            <Grid className={classes.background} item xs={6} md={4} lg={3}>
+              <Paper style={{backgroundImage: 'linear-gradient(230deg, #ffc480, #ff763b)'}} className={fixedHeightStat}>
+            <StatCard label={"Daily Weight Gain"} />
+              </Paper>
+            </Grid>
+            <Grid className={classes.background} item xs={6} md={4} lg={3}>
+              <Paper style={{backgroundImage: 'linear-gradient(230deg, #0e4cfd, #6a8eff)'}} className={fixedHeightStat}>
+            <StatCard label={"Daily Weight Loss"} />
+              </Paper>
+            </Grid>
+
             <Grid className={classes.background} item xs={12} md={5} lg={6}>
-              <LineGraph dateGroups={props.dateGroups} />
+              <Paper className={fixedHeightPaper}>
+            <PieChart labels={props.classStandingsLabels} values={props.classStandingsValues} text="Class Standings" />
+              </Paper>
             </Grid>
             
-            <Grid item xs={12} md={8} lg={12}>
-              {/* <div className={fixedHeightPaper}> */}
-                {/* <Table userList={props.userList} /> */}
-                <Table />
-              {/* </div> */}
+            <Grid className={classes.background} item xs={12} md={5} lg={6}>
+              <Paper className={fixedHeightPaper}>
+            <PieChart labels={props.ethnicitiesLabels} values={props.ethnicitiesValues} text="Ethnicities"/>
+              </Paper>
             </Grid>
+            <Grid className={classes.background} item xs={12} md={5} lg={12}>
+              <Paper className={fixedHeightLine}>
+              <LineGraph dateGroups={props.dateGroups} />
+              </Paper>
+            </Grid>
+            
+            
+           
             </Grid>
         </Container>
     </main>

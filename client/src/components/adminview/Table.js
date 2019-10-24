@@ -11,78 +11,111 @@ import ArrowUpward from '@material-ui/icons/ArrowUpward';
 import Clear from '@material-ui/icons/Clear';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import moment from 'moment';
-import { connect } from 'react-redux';
-import { fetchUsers } from '../../actions';
+import { makeStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+import AddIcon from '@material-ui/icons/Add';
 
 
-
-class Table extends React.Component {
-
-    componentDidMount() {
-        this.props.fetchUsers();
+const useStyles = makeStyles(theme => ({
+    tableBorder: {
+        outline: '10px double aliceblue'
+    },
+    actionButton: {
+        padding: '10px',
+        margin: 0,
+        fontSize: '18px',
+        backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)',
+        backgroundColor: '#3f51b5',
+        color: 'white',
+        borderRadius: '7%'
+    },
+    pending: {
+        backgroundColor: 'red',
+        color: 'white'
+    },
+    completed: {
+        backgroundColor: 'green',
+        color: 'white'
     }
+}));
 
-    iconsList() {
-        return {
-            FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-            LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-            NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-            PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-            Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-            Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-            SortArrow: forwardRef((props, ref) => <ArrowUpward {...props} ref={ref} />),
-            ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-            DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-            
-        }
-    }
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#6e48aa',
+        },
+    },
+});
 
-    
-    render() {
-        if (!this.props.users) {
-            return <div>Loading</div>
-        } else {
-
+const iconsList = () => {
+    return {
+        FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+        LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+        NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+        PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+        Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+        Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+        SortArrow: forwardRef((props, ref) => <ArrowUpward {...props} ref={ref} />),
+        ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+        DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
         
+    }
+}
+
+const actionButton = (classes) => {
+    return (
+        <p className={classes.actionButton}>Transfer</p>
+    );
+}
+
+const Table = (props) => {   
+    const classes = useStyles();          
         return (
+            <MuiThemeProvider theme={theme}>
             <MaterialTable
                 title="User Table"
                 columns={[
+                    {title: 'Status', field: 'status', render: rowData => <Chip label={rowData.status} className={rowData.status === 'Pending' ? classes.pending : classes.completed} size="small" />},
                     {title: 'First Name', field: 'firstName'},
                     {title: 'Last Name', field: 'lastName'},
                     {title: 'Student ID', field: 'id'},
                     {title: 'Birthdate', field: 'birthDate', render: rowData => moment(rowData.birthDate).format("MM/DD/YY")},
-                    {title: 'Address', field: 'address'},
+                    {title: 'Address', field: 'address', render: rowData => rowData.address + ' ' + rowData.city + ' ' + rowData.zipCode},
                     {title: 'Ethnicity', field: 'ethnicity'},
                     {title: 'Class Standing', field: 'classStanding'},
                     {title: 'Military', field: 'military'}
                 ]}
-                data={this.props.users}
-                icons={this.iconsList()}
+                data={props.users}
+                icons={iconsList()}
                 options={{
-                    exportButton: true
+                    exportButton: true,
+                    selection: true,
+                    headerStyle: {
+                        fontWeight: 'bold',
+
+                    }
                 }}
                 detailPanel={rowData => {
                     
                     return rowData.members.map((link, index) => {
                         return (
                             
-                            <Breadcrumbs separator=">" key={index} aria-label="breadcrumb">
-                              <h4>{link.firstName}</h4>
-                              <h4>{link.race}</h4>
-                              <h4>{link.birthDay}</h4>
-                                </Breadcrumbs>                          
+                            <div key={index}>
+                              <h4>{`${index + 1}. ${link.firstName} ${link.race} ${moment(link.birthDate).format("MM/DD/YY")}`}</h4>
+                            </div>                          
                         );                  
                 })}}
+                actions={[
+                    {
+                        tooltip: 'Transfer User',
+                        icon: () => actionButton(classes),
+                        onClick: (evt, data) => props.transferUser(data)
+                    }
+                ]}
                 />
+                </MuiThemeProvider>
         )}
-    }
-}
+    
 
-const mapStateToProps = state => {
-    return ({
-        users: Object.values(state.users)
-    });
-}
 
-export default connect(mapStateToProps, {fetchUsers}) (Table);
+export default Table;

@@ -24,9 +24,7 @@ function getDataSet(dateGroups) {
     for (var i = 0; i < dateGroups.length; i++) {
         result[dateGroups[i]._id - 1] = dateGroups[i].total
     }
-    console.log(result);
-    
-   
+      
     return result;
 }
 
