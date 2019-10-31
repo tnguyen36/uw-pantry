@@ -8,6 +8,10 @@ import ethnicityReducer from './ethnicityReducer';
 import dailyUserReducer from './dailyUserReducer';
 import handleDrawerReducer from './handleDrawerReducer';
 import selectItemReducer from './selectItemReducer';
+import inventoryReducer from './inventoryReducer';
+import positiveDailyReducer from './dailyPositiveInventoryReducer';
+import negativeDailyReducer from './dailyNegativeInventoryReducer';
+
 
 export default combineReducers({
     form: formReducer,
@@ -18,5 +22,9 @@ export default combineReducers({
     ethnicities: ethnicityReducer,
     dailyUsers: dailyUserReducer,
     handleDrawer: handleDrawerReducer,
-    itemIndex: selectItemReducer
+    itemIndex: selectItemReducer,
+    inventory: inventoryReducer,
+    positiveDaily: positiveDailyReducer,
+    negativeDaily: negativeDailyReducer,
+   
 });

@@ -1,57 +1,68 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-
-
-const options = {
-    title: {
-        display: true,
-        text: 'New Users Per Month',
-        fontSize: 25,
-        fontColor: 'black',
-        fontStyle: 'normal'
-    },
-    legend: {
-        position: 'bottom',
-        labels: {
-            fontColor: 'black',
-            boxWidth: 20
-        }
-    },
-   };
-
-function getDataSet(dateGroups) {
-    var result = [0,0,0,0,0,0,0,0,0,0,0,0];
-    for (var i = 0; i < dateGroups.length; i++) {
-        result[dateGroups[i]._id - 1] = dateGroups[i].total
-    }
-      
-    return result;
-}
+import ReactApexChart from 'react-apexcharts';
 
 export default function LineGraph(props) {
-    const dataSet = getDataSet(props.dateGroups)
-    const data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        datasets: [{
-            label: new Date().getFullYear(),
-            data: dataSet,
-            backgroundColor: '#6e48aa',
-            fill: false,
-            lineTension: 0.1,
-            borderColor: '#6e48aa',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointRadius: 5,
-            pointHitRadius: 10
-        }],
-
-    };
-    
-
-
+    const dataSet = props.getDataSet(props.dateGroups)
+    const options = {
+        chart: {
+              zoom: {
+                  enabled: false
+              },
+              background: '#fff',             
+          },
+          dataLabels: {
+              enabled: false,
+          },
+          stroke: {
+              curve: 'straight',
+              width: 4
+          },
+          title: {
+              text: props.title,
+              align: 'left',
+              style: {
+                  fontSize: '20px',
+                  color: '#4b2e83'
+              }
+          },
+          grid: {
+              row: {
+                  colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                  opacity: 0.5
+              },
+          },
+          xaxis: {
+            type: 'datetime',                     
+          },
+          markers: {
+            size: 0,
+            style: 'hollow',
+          },
+          yaxis: {
+              title: {
+                  text: props.yaxisLabel
+              }
+          },
+          colors: ["#6e48aa"],
+          tooltip: {
+            x: {
+              format: props.tooltipLabel
+            }
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shadeIntensity: 1,
+              opacityFrom: 0.7,
+              opacityTo: 0.9,
+              stops: [0, 100]
+            }
+          }        
+      }
+      
     return (
-      <div>
-        <Line data={data} options={options} />
-      </div>
-    )
-};
+        <div>
+            <ReactApexChart options={options} series={[{name: 'Total', data: dataSet}]} type="area" height="400"/>
+        </div>
+    );
+}

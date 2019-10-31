@@ -1,6 +1,6 @@
 
 
-export default (state = true, action) => {
+export default (state = false, action) => {
     switch (action.type) {
         case 'OPEN_DRAWER':
             return true

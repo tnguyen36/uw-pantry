@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createUser } from '../actions';
 import { BrowserRouter, Route } from 'react-router-dom';
 import FormWizard from './FormWizard';
-// import SignInPage from './studentlogin/SignInPage';
+import SignInPage from './studentlogin/SignInPage';
 import Dashboard from './adminview/Dashboard';
 import CustomerBoard from './adminview/CustomerPage/CustomerBoard';
 import InventoryBoard from './adminview/InventoryPage/InventoryBoard';
@@ -20,6 +20,7 @@ class App extends React.Component {
                     <div>
                         {/* <Header /> */}
                         <Route path="/" exact component={FormWizard}/>
+                        <Route path="/login" exact component={SignInPage}/>
                         <Route path="/dashboard" exact component={Dashboard}/>
                         <Route path="/dashboard/customers" component={CustomerBoard}/>
                         <Route path="/dashboard/inventory" component={InventoryBoard}/>

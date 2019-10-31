@@ -35,7 +35,7 @@ const AccountForm = (props) => {
                     <Field name="classStanding" component={renderSelectField} label="Class Standing" selectValues={classStanding} />
                     </Grid>  
                     <Grid item xs={6}>
-                <Button className="next-button" type="submit" variant="contained" color="primary">Next</Button>
+                <Button className="form-button" type="submit" variant="contained" color="primary">Next</Button>
                 </Grid>    
                 </Grid>
                    

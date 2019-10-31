@@ -1,73 +1,62 @@
 import React from 'react';
-import { Pie } from 'react-chartjs-2';
-import 'chartjs-plugin-labels';
+import ReactApexChart from 'react-apexcharts';
+
 
 
 
 export default function PieChart(props) {
-    const options = {
-        title: {
-            display: true,
-            text: props.text,
-            fontSize: 25,
-            fontColor: 'black',
-            fontStyle: 'normal'
-        },
-        legend: {
-            position: 'bottom',
-            labels: {
-                fontColor: 'black',
-                boxWidth: 25
-            }
-        },
-        tooltips: {
-            callbacks: {
-              label: function(tooltipItem, data) {
-                  var dataset = data.datasets[tooltipItem.datasetIndex];
-                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-                  return previousValue + currentValue;
-                });
-                var currentValue = dataset.data[tooltipItem.index];
-                var percentage = Math.floor(((currentValue/total) * 100)+0.5);         
-                return percentage + "%";
+      
+  
+       const options = {
+          labels: props.labels,
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
               }
             }
-        },
-        plugins: {
-            labels: {
-                fontColor: 'black',
-                fontStyle: 'bold',
-            }
-        },
-          
-        
-    };
-    const data = {
-        labels: props.labels,
-        datasets: [{
-            data: props.values,
-            backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#00ff99',
-            '#6e48aa'
-            ],
-            hoverBackgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#00ff99',
-            '#6e48aa'
-            ]
-        }]
-    };
+          }],
+          title: {
+              text: props.text,
+              align: 'left',
+              style: {
+                  fontSize: '20px',
+                  color: '#4b2e83'
+                  
+              }
+          },
+          legend: {
+              position: 'bottom',
+              
+          },
+          chart: {
+              background: '#fff',
+              toolbar: {
+                show: true,
+                tools: {
+                  download: true
+                }
+              }
+          },
+        };
+
     
 
+    if (!props.values || !props.labels) {
+        return <div>Loading</div>
+    } else {
 
-    return (
-      <div>
-        <Pie data={data} options={options} />
-      </div>
-    )
+    
+      return (
+        <div id="chart">
+            <ReactApexChart options={options} series={props.values}type="pie" height='300' />
+        </div>
+      )
+    }
 };
+
+    

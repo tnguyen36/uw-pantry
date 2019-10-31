@@ -14,6 +14,7 @@ import '../style.css';
 
 
 
+
 class FormWizard extends React.Component {
     constructor(props) {
         super(props);
@@ -36,12 +37,13 @@ class FormWizard extends React.Component {
       
     }
 
+ 
     render() {
         const { page } = this.state;
         
         
         return (
-            <div>
+            <div className="register-page">
                 <Header />
                 <Container maxWidth="md">
                     <div className="form">

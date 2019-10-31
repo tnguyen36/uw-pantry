@@ -15,7 +15,8 @@ const styles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             fontSize: '0.7rem'
         },
-        marginTop: '1rem'
+        marginTop: '1rem',
+        backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'
     }
 
 }));

@@ -10,6 +10,8 @@ import { races } from '../selectvalues/raceSelectorValues';
 import Grid from '@material-ui/core/Grid';
 import '../../style.css';
 
+
+
 const renderMemberFields = ({ fields, meta: { error, submitFailed }}) => (
       <div>
       {fields.map((member, index) => (

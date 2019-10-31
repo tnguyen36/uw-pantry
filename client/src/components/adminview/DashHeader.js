@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'
+    backgroundColor: '#4b2e83'
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    textShadow: '2px 2px 4px #000000'
   },
   drawerPaper: {
     position: 'relative',
@@ -75,8 +76,13 @@ const useStyles = makeStyles(theme => ({
   },
   
   headerButton: {
-    outline: '1px solid white',
-    color: 'white'
+    color: 'white',
+    backgroundColor: '#3f51b5',
+    backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)',
+    borderRadius: '4px',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+    textShadow: '2px 2px 4px #000000',
+    outline: '1px solid white'
   },
 }));
 

@@ -14,14 +14,23 @@ const styles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             fontSize: '0.7rem'
         },
-        marginTop: '1rem'
+        marginTop: '1rem',
+        backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'
     }
 
 }));
 
+function initializeFields(count) {
+    var result = [];
+    for (var i = 0; i < count; i++) {
+        result.push({firstName: ""})
+    }
+    return result;
+}
 
 const HouseholdForm = (props) => {
     const { handleSubmit, previousPage } = props;
+    const[count, setFieldCount] = React.useState(0);
     const classes = styles();
     return (
         <div>
@@ -30,7 +39,7 @@ const HouseholdForm = (props) => {
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3} direction="row"  alignItems="center">
                         <Grid item xs={12}>
-                            <Field name="householdNumber" component={renderField} label="# of people in household (including self)" type="number" />
+                            <Field name="householdNumber" component={renderField} label="# of people in household (including self)" type="number" onChange={(event) => setFieldCount(event.target.value)} />
                         </Grid>
                         <Grid item xs={12}>
                             <p><strong>For each member in household (including self):</strong></p>
@@ -55,5 +64,10 @@ const HouseholdForm = (props) => {
 export default reduxForm({
     form: 'userForm',
     destroyOnUnmount: false,
-    validate
+    validate,
+    initialValues: {
+        members: initializeFields(1),
+        householdNumber: 1
+        
+    }
 }) (HouseholdForm);
