@@ -1,8 +1,9 @@
 import React from 'react';
 import AdminContent from './AdminContent';
 import { connect } from 'react-redux';
-import { fetchUsers, fetchClassStandings, fetchDateGroups, fetchEthnicityGroups, fetchDailyUsers, handleDrawer, fetchPositiveDailyInventory, fetchNegativeDailyInventory } from '../../actions';
+import { fetchUsers, fetchClassStandings, fetchDateGroups, fetchEthnicityGroups, fetchDailyUsers, handleDrawer, fetchPositiveDailyInventory, fetchNegativeDailyInventory, offSnackBar } from '../../actions';
 import _ from 'lodash';
+import SnackBar from '../SnackBar';
 
 
 class Dashboard extends React.Component {
@@ -45,6 +46,7 @@ class Dashboard extends React.Component {
                     negativeDaily={this.props.negativeDaily}
                     positiveDaily={this.props.positiveDaily}  
                 />
+                {this.props.error.toggleSnackBar && <SnackBar offSnackBar={this.props.offSnackBar} variant={this.props.error.variant} description={this.props.error.description} />}
             </div>
         );
     }
@@ -59,11 +61,12 @@ const mapStateToProps = state => {
         dailyUsers: state.dailyUsers,
         drawerStatus: state.handleDrawer,
         positiveDaily: state.positiveDaily,
-        negativeDaily: state.negativeDaily
+        negativeDaily: state.negativeDaily,
+        error: state.error
     });
 }
 
 
 
 
-export default connect(mapStateToProps, {fetchUsers, fetchClassStandings, fetchDateGroups, fetchEthnicityGroups, fetchDailyUsers, handleDrawer, fetchPositiveDailyInventory, fetchNegativeDailyInventory}) (Dashboard);
+export default connect(mapStateToProps, {fetchUsers, fetchClassStandings, fetchDateGroups, fetchEthnicityGroups, fetchDailyUsers, handleDrawer, fetchPositiveDailyInventory, fetchNegativeDailyInventory, offSnackBar}) (Dashboard);

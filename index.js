@@ -4,7 +4,9 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var User = require("./models/user");
 var Inventory = require("./models/inventory");
+var Admin = require("./models/admin");
 var moment = require("moment");
+var bcrypt = require("bcrypt");
 const path = require("path");
 const port = process.env.PORT || 3001;
 
@@ -16,6 +18,19 @@ mongoose.connect(databaseUri, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Database connected"))
     .catch(err => console.log("Database connection error: " + err.message));
 
+
+app.post("/login", function(req, res) {
+   Admin.find({username: req.body.username}, function(err, admin) {
+       if (err || admin.length === 0) {
+           res.send(false);
+       } else {           
+          bcrypt.compare(req.body.password, admin[0].password, function(err, result) {
+               res.send(result);
+           });        
+       }
+   });
+
+})
 
 app.post("/users", function(req, res) {
     req.body.firstName = req.body.firstName.charAt(0).toUpperCase() + req.body.firstName.slice(1);
@@ -129,6 +144,7 @@ app.post("/users/transfer", function (req, res) {
 });
 
 app.post("/inventory", function (req, res) {
+    req.body.name = req.body.name.charAt(0).toUpperCase() + req.body.name.slice(1);
     Inventory.create(req.body, function (err, post) {
         if (err) {
             console.log(err)
@@ -148,7 +164,7 @@ app.get("/inventory", function (req, res) {
             res.send(posts)
         }
         
-    });
+    }).sort({'postedDate': 1});
     
 });
 
@@ -163,7 +179,7 @@ app.post("/inventory/delete", function(req, res) {
 });
 
 app.get("/inventory/daily/positive", function (req, res) {
-    Inventory.aggregate([{$project:{"weight": 1, "operator":1, "day":{$dayOfMonth:{date:"$postedDate",timezone: "-0700"}}, "month":{$month: "$postedDate"}, "year":{$year: "$postedDate"}}},
+    Inventory.aggregate([{$project:{"weight": 1, "operator":1, "day":{$dayOfMonth:{date:"$postedDate", timezone: '-0700'}}, "month":{$month:{date:"$postedDate", timezone: '-0700'}}, "year":{$year: "$postedDate"}}},
                         {$match: {"month": month, "operator": "+", "year": year}}, {$group:{"_id":"$day","sum":{$sum:"$weight"},"day":{$first:"$day"}}},
                         {$project:{"_id":0, "sum":1, "day":1}}
     ], function (err, posts) {
@@ -173,12 +189,10 @@ app.get("/inventory/daily/positive", function (req, res) {
             res.send(posts)
         }
     });
-   
-    
 });
 
 app.get("/inventory/daily/negative", function(req, res) {
-    Inventory.aggregate([{$project:{"weight": 1, "operator":1, "day":{$dayOfMonth:{date:"$postedDate",timezone: "-0700"}}, "month":{$month: "$postedDate"}, "year":{$year: "$postedDate"}}},
+    Inventory.aggregate([{$project:{"weight": 1, "operator":1, "day":{$dayOfMonth:{date:"$postedDate",timezone: "-0700"}}, "month":{$month:{date:"$postedDate", timezone: '-0700'}}, "year":{$year: "$postedDate"}}},
                         {$match: {"month": month, "operator": "-", "year": year}}, {$group:{"_id":"$day","sum":{$sum:"$weight"},"day":{$first:"$day"}}},
                         {$project:{"_id":0, "sum":1, "day":1}}
     ], function (err, posts) {

@@ -4,7 +4,7 @@ import moment from 'moment';
 
 export function renderColumns(classes) {
     return [
-        {title: 'Status', field: 'status', export: false, render: rowData => <Chip label={rowData.status} className={rowData.status === 'Pending' ? classes.pending : classes.completed} size="small" />},
+        {title: 'Status', field: 'status', export: false, defaultSort: 'desc', render: rowData => <Chip label={rowData.status} className={rowData.status === 'Pending' ? classes.pending : classes.completed} size="small" />},
         {title: 'First Name', field: 'firstName'},
         {title: 'Last Name', field: 'lastName'},
         {title: 'Student ID', field: 'id'},

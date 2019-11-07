@@ -116,7 +116,7 @@ const AdminContent = (props) => {
             </Grid>
             <Grid className={classes.background} item xs={12} md={5} lg={12}>
               {/* <Paper className={fixedHeightLine}> */}
-              <LineGraph dateGroups={props.dateGroups} getDataSet={getDataSet} title={"Number of New Users by Month - " + new Date().getFullYear()} tooltipLabel="MMMM yyyy" yaxisLabel="# of Students" />
+              <LineGraph dateGroups={props.dateGroups} getDataSet={getDataSet} title={"Number of New Users by Month - " + new Date().getFullYear()} tooltipLabel="MMMM yyyy" yaxisLabel="# of Students" lineColor="#4b2e83" />
               {/* </Paper> */}
             </Grid>
             

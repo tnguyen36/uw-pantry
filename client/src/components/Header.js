@@ -104,7 +104,7 @@ const useStyles = makeStyles(theme => ({
 }));
    
 
-const Header = () => {
+const Header = (props) => {
     const classes = useStyles();
     return (
         <div>
@@ -114,7 +114,7 @@ const Header = () => {
                         <Link to="/" className={classes.homeIcon}><HomeTwoToneIcon fontSize="large" /></Link>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>UWT Pantry</Typography>
-                    <Link to="/dashboard" className={classes.link}><Button color="inherit">Admin Login</Button></Link>
+                    {props.location === '/login' ? null : <Link to="/login" className={classes.link}><Button color="inherit">Admin Login</Button></Link>}
                 </Toolbar>
             </AppBar>
         </div>

@@ -44,7 +44,7 @@ class FormWizard extends React.Component {
         
         return (
             <div className="register-page">
-                <Header />
+                <Header location={window.location.pathname} />
                 <Container maxWidth="md">
                     <div className="form">
                         <Grid container direction="column" justify="center" alignItems="center">
@@ -58,7 +58,7 @@ class FormWizard extends React.Component {
                         </Grid>
                     </div>
                 </Container>
-                {this.props.error.toggleSnackBar && <SnackBar offSnackBar={this.props.offSnackBar} variant={this.props.error.variant} />}
+                {this.props.error.toggleSnackBar && <SnackBar offSnackBar={this.props.offSnackBar} variant={this.props.error.variant} description={this.props.error.description} />}
             </div>
         );
     }

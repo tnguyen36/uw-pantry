@@ -8,6 +8,10 @@ html {
     height: 100%;
 }
 
+#root {
+    height: 100%;
+}
+
 .form-title {
     color: #4b2e83;
     margin-bottom: 0; 
@@ -28,7 +32,8 @@ html {
 
 .form {
     background-color: white;  
-    margin-top: 8rem;
+    margin-top: 6rem;
+    margin-bottom: 3rem;
     padding: 2rem;
     outline: 10px double aliceblue;
     border-radius: 8px;
@@ -39,6 +44,7 @@ html {
     height: 100vh;
     background: rgba(75,46,131,0.75);
     margin-bottom: 0;
+    overflow: auto;
 }
 
 

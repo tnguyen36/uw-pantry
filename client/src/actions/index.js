@@ -1,15 +1,37 @@
 import axios from 'axios';
+import history from '../history';
+
+
+export const onSignIn = (formValues) => async dispatch => {
+    const response = await axios.post("/login", formValues);
+    if (response.data) {
+        dispatch({type: 'SIGN_IN'});
+        history.push("/dashboard");
+        dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Welcome Admin'});
+    } else {
+        dispatch({type: 'ERROR_SNACKBAR', payload: 'Invalid username/password'});
+    }
+}
+
+export const onSignOut = () => async dispatch => {
+    dispatch({type: 'SIGN_OUT'});
+    dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Log Out!'})
+ };
+
+
 
 export const createUser = (formValues) => async dispatch => {   
     const response = await axios.post('/users', formValues);
-    console.log(response);
     if (response.data.errors) {
-        dispatch({type: 'ERROR_SNACKBAR'});
+        dispatch({type: 'ERROR_SNACKBAR', payload: 'Student ID already in use'});
     } else {
         dispatch({type: 'CREATE_USER', payload: response.data});
-        dispatch({type: 'SUCCESS_SNACKBAR'});
+        dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Registered!'});
+        setTimeout(() => window.location.reload(), 1300);
     }   
 };
+
+
 
 export const fetchUsers = () => async dispatch => {
     const response = await axios.get('/users');
@@ -76,8 +98,8 @@ export const transferUser = (users) => async dispatch => {
     
 }
 
-export const createInventoyPost = (weight, operator) => async dispatch => {
-    const data = {weight, operator}
+export const createInventoyPost = (weight, operator, name, currentWeight) => async dispatch => {
+    const data = {weight, operator, name, currentWeight};
     const response = await axios.post("/inventory", data);
     dispatch({type: 'CREATE_INVENTORY_POST', payload: response.data})
 }
@@ -103,5 +125,6 @@ export const fetchNegativeDailyInventory = () => async dispatch => {
     const response = await axios.get("/inventory/daily/negative");
     dispatch({type: 'FETCH_NEGATIVE_DAILY', payload: response.data});
 }
+
 
 

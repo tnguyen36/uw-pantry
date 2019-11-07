@@ -11,6 +11,7 @@ import selectItemReducer from './selectItemReducer';
 import inventoryReducer from './inventoryReducer';
 import positiveDailyReducer from './dailyPositiveInventoryReducer';
 import negativeDailyReducer from './dailyNegativeInventoryReducer';
+import signInReducer from './signInReducer';
 
 
 export default combineReducers({
@@ -26,5 +27,6 @@ export default combineReducers({
     inventory: inventoryReducer,
     positiveDaily: positiveDailyReducer,
     negativeDaily: negativeDailyReducer,
+    signIn: signInReducer
    
 });

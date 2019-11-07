@@ -6,8 +6,9 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import '../../style.css';
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
-const StudentLoginForm = () => {
+const StudentLoginForm = (props) => {
     const useStyles = makeStyles(theme => ({
         paper: {
           marginTop: '10rem',
@@ -21,7 +22,7 @@ const StudentLoginForm = () => {
         },
         form: {
           width: '100%', // Fix IE 11 issue.
-          marginTop: theme.spacing(1),
+          marginTop: theme.spacing(2),
         },
         submit: {
           margin: theme.spacing(3, 0, 2),
@@ -31,16 +32,20 @@ const StudentLoginForm = () => {
       const classes = useStyles();
     return (
         <div>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="lg">
                 <CssBaseline />
-                <div className={classes.paper}>
-                    <h4 className="form-title">Student Login</h4>
-                    <form className={classes.form}>
-                        <Field name="firstName" component={renderField} type="text" label="First Name" margin="normal" />
-                        <Field name="id" component={renderField} type="text" label="Student ID" margin="normal" />
-                        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign In</Button>
-                    </form>
-                </div>               
+                <Grid container justify="center">
+                  <Grid item xs={4}>
+                    <div className={classes.paper}>
+                        <h4 className="form-title">Admin Login</h4>
+                        <form onSubmit={props.handleSubmit} className={classes.form}>
+                            <Field name="username" component={renderField} type="text" label="Username" margin="normal" />
+                            <Field name="password" component={renderField} type="text" label="Password" margin="normal" />
+                            <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign In</Button>
+                        </form>
+                    </div>
+                  </Grid>
+                </Grid>               
             </Container>
 
             

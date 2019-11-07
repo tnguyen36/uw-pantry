@@ -16,14 +16,16 @@ class InventoryBoard extends React.Component {
         this.props.handleDrawer(drawerStatus);
     }
 
-    deletePosts = (posts) => {
-        this.props.deleteInventoryPost(posts);
+    deletePosts = async (posts) => {
+        await this.props.deleteInventoryPost(posts);
         this.props.fetchPositiveDailyInventory();
+        this.props.fetchNegativeDailyInventory();
     }
 
-    submitInventoryPost = (weight, operator) => {
-        this.props.createInventoyPost(weight, operator);
+    submitInventoryPost = async (weight, operator, name, currentWeight) => {
+        await this.props.createInventoyPost(weight, operator, name, currentWeight);
         this.props.fetchPositiveDailyInventory();
+        this.props.fetchNegativeDailyInventory();
     }
 
     render() {

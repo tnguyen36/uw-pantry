@@ -80,7 +80,7 @@ export default function CustomizedSnackbars(props) {
       >
         <MySnackbarContentWrapper
           variant={props.variant}
-          message={props.variant === 'error' ? 'Student Id already in use' : 'Successfully Registered!'}
+          message={props.description}
         />
       </Snackbar>
      

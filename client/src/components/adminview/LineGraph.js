@@ -5,8 +5,13 @@ export default function LineGraph(props) {
     const dataSet = props.getDataSet(props.dateGroups)
     const options = {
         chart: {
-              zoom: {
-                  enabled: false
+            zoom: {
+                type: 'xy',
+                enabled: true,
+                autoScaleYaxis: true
+            },
+            toolbar: {
+                autoSelected: 'zoom'
               },
               background: '#fff',             
           },
@@ -22,7 +27,7 @@ export default function LineGraph(props) {
               align: 'left',
               style: {
                   fontSize: '20px',
-                  color: '#4b2e83'
+                  color: props.lineColor
               }
           },
           grid: {
@@ -32,7 +37,7 @@ export default function LineGraph(props) {
               },
           },
           xaxis: {
-            type: 'datetime',                     
+            type: 'datetime',               
           },
           markers: {
             size: 0,
@@ -40,10 +45,13 @@ export default function LineGraph(props) {
           },
           yaxis: {
               title: {
-                  text: props.yaxisLabel
+                  text: props.yaxisLabel,
+                  style: {
+                      fontSize: '12px'
+                  }
               }
           },
-          colors: ["#6e48aa"],
+          colors: [props.lineColor],
           tooltip: {
             x: {
               format: props.tooltipLabel
@@ -62,7 +70,7 @@ export default function LineGraph(props) {
       
     return (
         <div>
-            <ReactApexChart options={options} series={[{name: 'Total', data: dataSet}]} type="area" height="400"/>
+            <ReactApexChart options={options} series={[{name: 'Current Weight', data: dataSet}]} type="area" height="400"/>
         </div>
     );
 }

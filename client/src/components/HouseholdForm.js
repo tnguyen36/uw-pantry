@@ -65,9 +65,4 @@ export default reduxForm({
     form: 'userForm',
     destroyOnUnmount: false,
     validate,
-    initialValues: {
-        members: initializeFields(1),
-        householdNumber: 1
-        
-    }
 }) (HouseholdForm);

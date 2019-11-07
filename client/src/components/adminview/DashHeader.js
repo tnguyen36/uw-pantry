@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,11 +13,13 @@ import ListItemContent from './ListItemContent';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
+import { connect } from 'react-redux';
+import { onSignOut } from '../../actions';
 
 
 const drawerWidth = 240;
 
-const useStyles = makeStyles(theme => ({
+const styles = theme => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
@@ -84,39 +86,40 @@ const useStyles = makeStyles(theme => ({
     textShadow: '2px 2px 4px #000000',
     outline: '1px solid white'
   },
-}));
+});
 
-const DashHeader = (props) => {
-    const classes = useStyles();
+class DashHeader extends React.Component {
+    render() {
+      const { classes } = this.props;
     return (
         <>
           <CssBaseline />
-          <AppBar position="absolute" className={clsx(classes.appBar, props.drawerStatus && classes.appBarShift)}>
+          <AppBar position="absolute" className={clsx(classes.appBar, this.props.drawerStatus && classes.appBarShift)}>
           <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={() => props.toggleDrawer(false)}
-            className={clsx(classes.menuButton, props.drawerStatus && classes.menuButtonHidden)}
+            onClick={() => this.props.toggleDrawer(false)}
+            className={clsx(classes.menuButton, this.props.drawerStatus && classes.menuButtonHidden)}
           >
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            {props.title}
+            {this.props.title}
           </Typography>         
-          <Link style={{textDecoration: 'none'}} to="/"><Button className={classes.headerButton}>Sign Out</Button></Link>        
+          <Link style={{textDecoration: 'none'}} to="/"><Button onClick={this.props.onSignOut} className={classes.headerButton}>Sign Out</Button></Link>        
         </Toolbar>
       </AppBar>
       <Drawer
         variant="permanent"
         classes={{
-          paper: clsx(classes.drawerPaper, !props.drawerStatus && classes.drawerPaperClose),
+          paper: clsx(classes.drawerPaper, !this.props.drawerStatus && classes.drawerPaperClose),
         }}
-        open={props.drawerStatus}
+        open={this.props.drawerStatus}
       >
         <div className={classes.toolbarIcon}>
-          <IconButton onClick={() => props.toggleDrawer(true)}>
+          <IconButton onClick={() => this.props.toggleDrawer(true)}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
@@ -127,6 +130,9 @@ const DashHeader = (props) => {
       </Drawer> 
       </>   
     )
+      }
 }
 
-export default DashHeader;
+
+
+export default connect(null, {onSignOut}) (withStyles(styles)(DashHeader));

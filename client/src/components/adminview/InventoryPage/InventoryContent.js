@@ -14,7 +14,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import {renderColumns, action} from '../../columns/inventoryColumn';
 import Button from '@material-ui/core/Button';
 import LineGraph from '../LineGraph';
-import { getDataSet } from '../../columns/inventoryLineGraph';
+import { getDataSet, getTotalDataSet } from '../../columns/inventoryLineGraph';
 
 
 
@@ -70,13 +70,16 @@ const useStyles = makeStyles(theme => ({
     }
   }));
 
-function validWeight(props, weight, setWeight, operator) {
+function validWeight(props, weight, setWeight, operator, name, setName, overallBalance) {
   const weightString = weight.toString();
+  const currentWeight = (operator === '+' ? Number(overallBalance) + Number(weight) : Number(overallBalance) - Number(weight));
   if (weightString !== "" && weightString !== "." && weightString.indexOf('.') === weightString.lastIndexOf('.')) {
-    props.submitInventoryPost(weight, operator); 
+    props.submitInventoryPost(weight, operator, name, currentWeight); 
     setWeight("");
+    setName("");
   } else {
     setWeight("");
+    setName("");
   }
 }
 
@@ -99,6 +102,7 @@ const InventoryContent = (props) => {
     const overallBalance= getOverallBalance(props);
     const [operator, setOperator] = React.useState("+");
     const [weight, setWeight] = React.useState("");
+    const [name, setName] = React.useState("");
     return (
         <div className={classes.root}>
             <DashHeader toggleDrawer={props.toggleDrawer} drawerStatus={props.drawerStatus} title={"Inventory"} />
@@ -107,7 +111,7 @@ const InventoryContent = (props) => {
                     <Container maxWidth="lg" className={classes.container}>
                       <Grid container spacing={3} direction="row">
                       
-                        <Grid item lg={4}>                      
+                        <Grid item md={7} lg={6}>                      
                     <Paper className={classes.root}>
                       <IconButton className={classes.iconButton} onClick={() => operator === '+' ? setOperator("-") : setOperator("+")}>
                         {operator === '+' ? <AddIcon className={classes.add} /> : <RemoveIcon className={classes.subtract} />}
@@ -122,22 +126,33 @@ const InventoryContent = (props) => {
                         value={weight}
                       />
                       <Divider className={classes.divider} orientation="vertical" />
+                      <InputBase
+                        className={classes.input}
+                        placeholder="Enter Name (Optional)"
+                        inputProps={{ 'aria-label': 'search google maps' }}
+                        type="text"
+                        onChange={(event) => setName(event.target.value)}
+                        value={name}
+                      />
                         <div style={{padding: '10px'}}>
-                          <Button className={classes.submit} variant="contained" onClick={() => validWeight(props, weight, setWeight, operator)}>Submit</Button>
+                          <Button className={classes.submit} variant="contained" onClick={() => validWeight(props, weight, setWeight, operator, name, setName, overallBalance)}>Submit</Button>
                         </div>
                     </Paper> 
                     </Grid>
                     <Grid item lg={4}>
-                        <h1>Current Weight: {overallBalance}</h1>
+                        <h1 style={{margin: '10px', color: '#4b2e83'}}>Current Weight: {overallBalance} lb</h1>
                         </Grid>
                    
-                    <Grid item xs={6}>
-                      <LineGraph dateGroups={props.positiveDaily} getDataSet={getDataSet} title={"Incoming Donation - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" />
+                    <Grid item xs={12}>
+                      <LineGraph dateGroups={props.inventoryPosts} getDataSet={getTotalDataSet} title={"Overall Weight Trend - " +  new Date().getFullYear()} tooltipLabel="M/d, h:mm tt" yaxisLabel="Pound (lb)" lineColor="#4b2e83" />
                     </Grid>
                     <Grid item xs={6}>
-                      <LineGraph dateGroups={props.negativeDaily} getDataSet={getDataSet} title={"Outgoing Inventory - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" />
+                      <LineGraph dateGroups={props.positiveDaily} getDataSet={getDataSet} title={"Incoming Donation - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" lineColor="#32CD32" />
                     </Grid>
-                    <Grid item lg={6}>
+                    <Grid item xs={6}>
+                      <LineGraph dateGroups={props.negativeDaily} getDataSet={getDataSet} title={"Outgoing Inventory - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" lineColor="#ff0000" />
+                    </Grid>                   
+                    <Grid item lg={8}>
                       <Table data={props.inventoryPosts} renderColumns={renderColumns} title="History Log" action={action} actionButtonLabel="Delete" deletePosts={props.deletePosts} />
                     </Grid>
                     </Grid>
