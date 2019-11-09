@@ -4,7 +4,8 @@ import history from '../history';
 
 export const onSignIn = (formValues) => async dispatch => {
     const response = await axios.post("/login", formValues);
-    if (response.data) {
+    if (response.data.result) {
+        localStorage.setItem('jwtToken', response.data.token);
         dispatch({type: 'SIGN_IN'});
         history.push("/dashboard");
         dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Welcome Admin'});
@@ -14,9 +15,20 @@ export const onSignIn = (formValues) => async dispatch => {
 }
 
 export const onSignOut = () => async dispatch => {
+    localStorage.removeItem('jwtToken');
     dispatch({type: 'SIGN_OUT'});
     dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Log Out!'})
  };
+
+ export const verifyToken = (token) => async dispatch => {
+     const response = await axios.post("/token", {token});
+     if (response.data) {
+         dispatch({type:'SIGN_IN'});
+     } else {
+         localStorage.removeItem('jwtToken');
+         dispatch({type:'SIGN_OUT'});
+     }
+ }
 
 
 
@@ -44,7 +56,6 @@ export const fetchDailyUsers = () => async dispatch => {
 }
 
 export const fetchClassStandings = (quarter = 0) => async dispatch => {
-
     const response = await axios.post('/users/class', {quarter: quarter});
     if(response.data.length === 0) {
         response.data = [{_id: 'N/A', total: 0}]
@@ -67,8 +78,7 @@ export const fetchEthnicityGroups = (quarter = 0) => async dispatch => {
 
 export const offSnackBar = () => {
     return {
-        type: 'OFF_SNACKBAR'
-       
+        type: 'OFF_SNACKBAR'       
     }
 }
 
@@ -79,7 +89,7 @@ export const handleDrawer = (drawerStatus) => {
         }
     } else {
         return {
-        type: 'OPEN_DRAWER'
+            type: 'OPEN_DRAWER'
         }
     }   
 }

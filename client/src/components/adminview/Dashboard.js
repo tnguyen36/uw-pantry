@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchUsers, fetchClassStandings, fetchDateGroups, fetchEthnicityGroups, fetchDailyUsers, handleDrawer, fetchPositiveDailyInventory, fetchNegativeDailyInventory, offSnackBar } from '../../actions';
 import _ from 'lodash';
 import SnackBar from '../SnackBar';
+import { socket } from '../../socket';
 
 
 class Dashboard extends React.Component {
@@ -15,6 +16,11 @@ class Dashboard extends React.Component {
         this.props.fetchDailyUsers();
         this.props.fetchPositiveDailyInventory();
         this.props.fetchNegativeDailyInventory();
+        socket.on('change_data', this.changeData);
+    }
+
+    componentWillUnmount() {
+        socket.off('change_data');
     }
 
     toggleDrawer = (drawerStatus) => {
@@ -24,6 +30,13 @@ class Dashboard extends React.Component {
     changeQuarter = (quarter) => {
         this.props.fetchClassStandings(quarter);
         this.props.fetchEthnicityGroups(quarter);
+    }
+
+    changeData = () => {
+        this.props.fetchClassStandings();
+        this.props.fetchDateGroups();
+        this.props.fetchEthnicityGroups();
+        this.props.fetchDailyUsers();
     }
 
 

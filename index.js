@@ -7,9 +7,18 @@ var Inventory = require("./models/inventory");
 var Admin = require("./models/admin");
 var moment = require("moment");
 var bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
+var http = require("http").Server(app);
+var socketIO = require("socket.io");
+var cors = require('cors');
+
 const path = require("path");
 const port = process.env.PORT || 3001;
 
+const io = socketIO(http);
+
+app.use(cors());
+app.options('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -18,6 +27,17 @@ mongoose.connect(databaseUri, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Database connected"))
     .catch(err => console.log("Database connection error: " + err.message));
 
+io.on("connection", socket => {
+    console.log("New client connected " + socket.id);
+    socket.on("newUser", () => {
+        io.sockets.emit("change_data");
+    });
+
+    socket.on("disconnect", () => {
+        console.log("user disconnected");
+    });
+});
+
 
 app.post("/login", function(req, res) {
    Admin.find({username: req.body.username}, function(err, admin) {
@@ -25,12 +45,39 @@ app.post("/login", function(req, res) {
            res.send(false);
        } else {           
           bcrypt.compare(req.body.password, admin[0].password, function(err, result) {
-               res.send(result);
+              Admin.updateMany({}, {$set: { "loginExpire": moment().add(2, "hours")}}, function(err) {
+                  if (err) {
+                      console.log(err)
+                  } else {
+                    var token = jwt.sign({username: admin[0].username}, 'rusty', { expiresIn: '2h'});                  
+                    res.send({token, result});
+                  }
+              })              
            });        
        }
    });
 
-})
+});
+
+app.get("/admin", function(req, res) {
+    Admin.find({}, function(err, admin) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(admin[0].loginExpire)
+        }
+    })
+});
+
+app.post("/token", function(req, res) {
+    jwt.verify(req.body.token, 'rusty', function(err, decoded) {
+        if (err) {
+            res.send(false)
+        } else {
+            decoded.username === 'uwtcei@uw.edu' ? res.send(true) : res.send(false);
+        }
+    });
+});
 
 app.post("/users", function(req, res) {
     req.body.firstName = req.body.firstName.charAt(0).toUpperCase() + req.body.firstName.slice(1);
@@ -202,7 +249,9 @@ app.get("/inventory/daily/negative", function(req, res) {
             res.send(posts)
         }
     });
-})
+});
+
+
 
 
 
@@ -213,4 +262,4 @@ if (process.env.NODE_ENV === 'production') {
 
 
 
-app.listen(port, () => console.log("Server has started!"));
+http.listen(port, () => console.log("Server has started!"));

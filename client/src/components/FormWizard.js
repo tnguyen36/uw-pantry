@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import SnackBar from './SnackBar';
 import Header from './Header';
 import '../style.css';
+import { socket } from '../socket';
 
 
 
@@ -32,8 +33,9 @@ class FormWizard extends React.Component {
         this.setState({ page: this.state.page - 1});
     }
 
-    onSubmit = (formValues) => {    
-       this.props.createUser(formValues);
+    onSubmit = async (formValues) => {    
+       await this.props.createUser(formValues);
+       socket.emit('newUser')
       
     }
 

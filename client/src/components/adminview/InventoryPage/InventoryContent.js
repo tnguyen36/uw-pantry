@@ -17,8 +17,6 @@ import LineGraph from '../LineGraph';
 import { getDataSet, getTotalDataSet } from '../../columns/inventoryLineGraph';
 
 
-
-
 const useStyles = makeStyles(theme => ({
     root: {
       display: 'flex',
@@ -32,12 +30,6 @@ const useStyles = makeStyles(theme => ({
     container: {
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
-    },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
     },
     input: {
       marginLeft: theme.spacing(1),

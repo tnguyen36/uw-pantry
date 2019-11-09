@@ -8,25 +8,19 @@ import {renderColumns, detailPanel, action} from '../../columns/userColumn';
 
 const useStyles = makeStyles(theme => ({
     root: {
-      display: 'flex',
+    	display: 'flex',
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-      flexGrow: 1,
-      height: '100vh',
-      overflow: 'auto',
+      	flexGrow: 1,
+     	height: '100vh',
+      	overflow: 'auto',
     },
     container: {
-      paddingTop: theme.spacing(11),
-      paddingBottom: theme.spacing(4),
+      	paddingTop: theme.spacing(11),
+      	paddingBottom: theme.spacing(4),
     },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-    },
-  }));
+}));
 
 const CustomerContent = (props) => {
     const classes = useStyles(); 
@@ -34,18 +28,23 @@ const CustomerContent = (props) => {
         <div className={classes.root}>
             <DashHeader toggleDrawer={props.toggleDrawer} drawerStatus={props.drawerStatus} title={"Customers"} />
             <main className={classes.content} onClick={() => props.toggleDrawer(true)}>
-                <div className={classes.appBarSpacer} />
-                    <Container maxWidth="lg" className={classes.container}>
-                        <Grid container>
-                        <Grid item xs={12} md={8} lg={12}>
-              
-                        <Table data={props.users} transferUser={props.transferUser} renderColumns={renderColumns} detailPanel={detailPanel} title="New User Details" action={action} actionButtonLabel="Transfer"/>
-        
-                        </Grid>
-                        </Grid>
-                    </Container>
-                </main>
-            
+            <div className={classes.appBarSpacer} />
+                <Container maxWidth="lg" className={classes.container}>
+                    <Grid container>
+						<Grid item xs={12} md={8} lg={12}>              
+							<Table 
+								data={props.users} 
+								transferUser={props.transferUser} 
+								renderColumns={renderColumns} 
+								detailPanel={detailPanel} 
+								title="New User Details" 
+								action={action} 
+								actionButtonLabel="Transfer"
+							/>       
+						</Grid>
+                    </Grid>
+                </Container>
+            </main>            
         </div>
     )
 }

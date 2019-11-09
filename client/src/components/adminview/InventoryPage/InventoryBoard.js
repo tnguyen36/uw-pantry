@@ -34,7 +34,15 @@ class InventoryBoard extends React.Component {
         } else {
             return (
                 <div>
-                    <InventoryContent toggleDrawer={this.toggleDrawer} drawerStatus={this.props.drawerStatus} submitInventoryPost={this.submitInventoryPost} inventoryPosts={this.props.inventoryPosts} deletePosts={this.deletePosts} positiveDaily={this.props.positiveDaily} negativeDaily={this.props.negativeDaily} />
+                    <InventoryContent 
+                        toggleDrawer={this.toggleDrawer} 
+                        drawerStatus={this.props.drawerStatus} 
+                        submitInventoryPost={this.submitInventoryPost} 
+                        inventoryPosts={this.props.inventoryPosts} 
+                        deletePosts={this.deletePosts} 
+                        positiveDaily={this.props.positiveDaily} 
+                        negativeDaily={this.props.negativeDaily} 
+                    />
                 </div>
             );
         }
