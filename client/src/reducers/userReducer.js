@@ -5,7 +5,7 @@ export default (state={}, action) => {
         case 'CREATE_USER':
             return {...state, [action.payload._id]: action.payload};
         case 'FETCH_USERS':
-            return {...state, ..._.mapKeys(action.payload, '_id')};
+            return _.mapKeys(action.payload, '_id');
         case 'UPDATE_USERS':
             return {...state, ..._.mapKeys(action.payload, '_id')};
         default:

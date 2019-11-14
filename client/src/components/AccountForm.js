@@ -7,12 +7,14 @@ import { classStanding } from './selectvalues/classSelectorValues';
 import renderSelectField from './fields/renderSelectField';
 import validate from '../formValidation';
 import '../style.css';
+import Container from '@material-ui/core/Container';
 
 
 const AccountForm = (props) => {
     const { handleSubmit } = props;
     return (
         <div>
+            <Container maxWidth="sm">
             <h4 className="form-step-title">Account Information</h4>
             <h4 className="step-label">Step 1 / 3</h4>     
             <form onSubmit={handleSubmit}>
@@ -41,7 +43,7 @@ const AccountForm = (props) => {
                    
                               
             </form>
-          
+            </Container>
         </div>
     )
 }

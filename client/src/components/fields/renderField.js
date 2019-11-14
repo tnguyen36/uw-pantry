@@ -18,7 +18,7 @@ const renderField = ({input, label, type, meta: {touched, error}}) => {
             required
             {...input}
         />
-        {error}
+        <p style={{color: 'red', fontSize: '13px', margin: '0'}}>{error}</p>
     </div>
     );
 }

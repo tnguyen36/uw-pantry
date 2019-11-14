@@ -10,7 +10,7 @@ import { races } from '../selectvalues/raceSelectorValues';
 import Grid from '@material-ui/core/Grid';
 import '../../style.css';
 
-
+const letters = value => /[^a-zA-Z]/i.test(value) ? 'Invalid Name' : undefined;
 
 const renderMemberFields = ({ fields, meta: { error, submitFailed }}) => (
       <div>
@@ -37,6 +37,7 @@ const renderMemberFields = ({ fields, meta: { error, submitFailed }}) => (
             type="text"
             component={renderField}
             label="First Name"
+            validate={letters}
           />
           <Field
             name={`${member}.birthDay`}

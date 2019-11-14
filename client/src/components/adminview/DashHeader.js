@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { onSignOut } from '../../actions';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
 const drawerWidth = 240;
@@ -108,7 +109,7 @@ class DashHeader extends React.Component {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             {this.props.title}
           </Typography>         
-          <Link style={{textDecoration: 'none'}} to="/"><Button onClick={this.props.onSignOut} className={classes.headerButton}>Sign Out</Button></Link>        
+          <Link style={{textDecoration: 'none'}} to="/"><Button onClick={this.props.onSignOut} className={classes.headerButton}><ExitToAppIcon/>&nbsp; Sign Out</Button></Link>        
         </Toolbar>
       </AppBar>
       <Drawer

@@ -19,74 +19,73 @@ import { getDataSet, getTotalDataSet } from '../../columns/inventoryLineGraph';
 
 const useStyles = makeStyles(theme => ({
     root: {
-      display: 'flex',
+        display: 'flex',
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {
-      flexGrow: 1,
-      height: '100vh',
-      overflow: 'auto',
+        flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
     },
     container: {
-      paddingTop: theme.spacing(4),
-      paddingBottom: theme.spacing(4),
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
     },
     input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
+        marginLeft: theme.spacing(1),
+        flex: 1,
     },
     iconButton: {
-      padding: 5,
+        padding: 5,
     },
     divider: {
-      height: 45,
-      margin: 4,
-      marginLeft: 10
+        height: 45,
+        margin: 4,
+        marginLeft: 10
     },
     add: {
-      color: 'white',
-      fontSize: '30px',
-      backgroundColor: 'green',
-      marginLeft: '5px'
+        color: 'white',
+        fontSize: '30px',
+        backgroundColor: 'green',
+        marginLeft: '5px'
     },
     subtract: {
-      color: 'white',
-      fontSize: '30px',
-      backgroundColor: 'red',
-      marginLeft: '5px'
+        color: 'white',
+        fontSize: '30px',
+        backgroundColor: 'red',
+        marginLeft: '5px'
     },
     submit: {
-      backgroundColor: '#3f51b5',
-      backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)',
-      color: 'white'
+        backgroundColor: '#3f51b5',
+        backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)',
+        color: 'white'
     }
-  }));
+}));
 
 function validWeight(props, weight, setWeight, operator, name, setName, overallBalance) {
-  const weightString = weight.toString();
-  const currentWeight = (operator === '+' ? Number(overallBalance) + Number(weight) : Number(overallBalance) - Number(weight));
-  if (weightString !== "" && weightString !== "." && weightString.indexOf('.') === weightString.lastIndexOf('.')) {
-    props.submitInventoryPost(weight, operator, name, currentWeight); 
-    setWeight("");
-    setName("");
-  } else {
-    setWeight("");
-    setName("");
-  }
+    const weightString = weight.toString();
+    const currentWeight = (operator === '+' ? Number(overallBalance) + Number(weight) : Number(overallBalance) - Number(weight));
+    if (weightString !== "" && weightString !== "." && weightString.indexOf('.') === weightString.lastIndexOf('.')) {
+        props.submitInventoryPost(weight, operator, name, currentWeight); 
+        setWeight("");
+        setName("");
+    } else {
+        setWeight("");
+        setName("");
+    }
 }
 
 function getOverallBalance(props) {
-  var positive = 0;
-  var negative = 0;
-  for (var i = 0; i < props.inventoryPosts.length; i++) {
-    if (props.inventoryPosts[i].operator === '+') {
-        positive += props.inventoryPosts[i].weight;
-    } else {
-        negative += props.inventoryPosts[i].weight
+    var positive = 0;
+    var negative = 0;
+    for (var i = 0; i < props.inventoryPosts.length; i++) {
+        if (props.inventoryPosts[i].operator === '+') {
+            positive += props.inventoryPosts[i].weight;
+        } else {
+            negative += props.inventoryPosts[i].weight
+        }
     }
-  }
-  return (positive - negative).toFixed(2);
-
+    return (positive - negative).toFixed(2);
 }
 
 const InventoryContent = (props) => {

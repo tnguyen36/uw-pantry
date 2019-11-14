@@ -36,7 +36,7 @@ class App extends React.Component {
                         <Route path="/" exact component={FormWizard}/>
                         <Route path="/login" exact component={SignInPage}/>
                         <PrivateRoute path="/dashboard" exact component={Dashboard}/>
-                        <PrivateRoute path="/dashboard/customers" exact component={CustomerBoard} isSignedIn={this.props.isSignedIn}/>
+                        <PrivateRoute path="/dashboard/customers" exact component={CustomerBoard}/>
                         <PrivateRoute path="/dashboard/inventory" exact component={InventoryBoard}/>
                         <PrivateRoute path="/dashboard/report" exact component={ReportBoard}/>
                     </div>               

@@ -92,13 +92,25 @@ app.post("/users", function(req, res) {
 });
 
 app.get("/users", function(req, res) {
-    User.find({}, function(err, users) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(users);
-        }
-    })
+    const start = moment(req.query.startDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    const end = moment(req.query.endDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    if (req.query.startDate || req.query.endDate) {
+        User.aggregate([{"$match": {"registerDate":{"$gte": start, "$lte": end}}}], function(err, users) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(users)
+            }
+        });
+    } else {   
+        User.find({}, function(err, users) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(users);
+            }
+        })
+    }
 });
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1;
@@ -131,17 +143,40 @@ const quarter = [
     ]
 
 app.post("/users/class", function(req, res) {
-    
-    User.aggregate([{"$match": {"registerDate":{"$gte": quarter[req.body.quarter].start, "$lte": quarter[req.body.quarter].end}}},{"$group":{"_id":"$classStanding", "total":{"$sum":1}}}], function(err, classStandings) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(classStandings);
-        }
-    });
-})
+    const start = moment(req.body.startDate).toDate();
+    const end = moment(req.body.endDate).toDate();
+
+    if (req.body.startDate || req.body.endDate) {
+        User.aggregate([{"$match": {"registerDate":{"$gte": start, "$lte": end}}}, {"$group":{"_id":"$classStanding", "total":{"$sum":1}}}], function(err, classStandings) {
+            if (err) {
+                console.log(err)
+            } else {
+                res.send(classStandings);
+            }
+        });
+    } else {    
+        User.aggregate([{"$match": {"registerDate":{"$gte": quarter[req.body.quarter].start, "$lte": quarter[req.body.quarter].end}}},{"$group":{"_id":"$classStanding", "total":{"$sum":1}}}], function(err, classStandings) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(classStandings);
+            }
+        });
+    }
+});
 
 app.post("/users/ethnicity", function(req, res) {
+    const start = moment(req.body.startDate).toDate();
+    const end = moment(req.body.endDate).toDate();
+    if (req.body.startDate || req.body.endDate) {
+        User.aggregate([{"$match": {"registerDate":{"$gte": start, "$lte": end}}}, {"$group":{"_id":"$ethnicity", "total":{"$sum":1}}}], function(err, ethnicities) {
+            if (err) {
+                console.log(err)
+            } else {
+                res.send(ethnicities);
+            }
+        });
+    } else {   
     User.aggregate([{"$match": {"registerDate":{"$gte": quarter[req.body.quarter].start, "$lte": quarter[req.body.quarter].end}}},{"$group":{"_id":"$ethnicity", "total":{"$sum":1}}}], function(err, ethnicities) {
         if (err) {
             console.log(err);
@@ -149,6 +184,7 @@ app.post("/users/ethnicity", function(req, res) {
             res.send(ethnicities);
         }
     });
+}
 })
 
 app.get("/users/dates", function(req, res) {
@@ -204,6 +240,18 @@ app.post("/inventory", function (req, res) {
 });
 
 app.get("/inventory", function (req, res) {
+    const start = moment(req.query.startDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    const end = moment(req.query.endDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    if (req.query.startDate || req.query.endDate) {
+        Inventory.aggregate([{"$match": {"postedDate":{"$gte": start, "$lte": end}}}], function(err, posts) {
+            if (err) {
+                console.log(err);
+            } else {               
+                res.send(posts);
+            }
+        });
+    } else {
+
     Inventory.find({}, function (err, posts) {
         if (err) {
             console.log(err)
@@ -212,6 +260,7 @@ app.get("/inventory", function (req, res) {
         }
         
     }).sort({'postedDate': 1});
+    }
     
 });
 

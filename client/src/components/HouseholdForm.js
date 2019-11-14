@@ -6,16 +6,18 @@ import Grid from '@material-ui/core/Grid';
 import renderMemberFields from './fields/renderMemberFields';
 import { makeStyles } from '@material-ui/core/styles';
 import validate from '../formValidation';
+import Container from '@material-ui/core/Container';
 import '../style.css';
 
 
 const styles = makeStyles(theme => ({
-    root: {
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '0.7rem'
-        },
-        marginTop: '1rem',
-        backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'
+    button: {
+        marginTop: theme.spacing(3),
+        marginLeft: theme.spacing(1),
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'flex-end'
     }
 
 }));
@@ -34,6 +36,7 @@ const HouseholdForm = (props) => {
     const classes = styles();
     return (
         <div>
+            <Container maxWidth="sm">
                 <h4 className="form-step-title">Household Information</h4>
                 <h4 className="step-label">Step 3 / 3</h4>
                 <form onSubmit={handleSubmit}>
@@ -45,18 +48,14 @@ const HouseholdForm = (props) => {
                             <p><strong>For each member in household (including self):</strong></p>
                             <FieldArray name="members" component={renderMemberFields} />
                         </Grid>
-                    </Grid>
-                    <Grid container spacing={1} direction="row" alignItems="center" justify="center">
-                        <Grid item xs={3}>
-                            <Button className={classes.root} variant="contained" color="primary" onClick={previousPage}>Previous</Button>
-                        </Grid>
-                        <Grid item xs={3}>
-                            <Button className={classes.root} variant="contained" color="primary" type="submit">Submit</Button>
-                        </Grid>
-                    </Grid>
+                    </Grid>                   
+                        <div className={classes.buttons}>
+                            <Button className={classes.button} variant="contained"  onClick={previousPage}>Back</Button>                      
+                            <Button style={{backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'}} className={classes.button} variant="contained" color="primary" type="submit">Submit</Button>
+                        </div>
+                    
                 </form>
-                
-                
+                </Container>               
         </div>
     )
 }
