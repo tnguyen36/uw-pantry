@@ -109,8 +109,6 @@ function getAddressStats(users) {
       users[i].address.toUpperCase().includes(court17.toUpperCase()) ? result.onCampus += 1 : result.offCampus += 1;              
     }
   }
-  console.log(users);
-  console.log(result);
   return result;
 
 }
