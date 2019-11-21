@@ -3,10 +3,18 @@ import { connect } from 'react-redux';
 import { handleDrawer, fetchClassStandings, fetchEthnicityGroups, fetchUsers, fetchPositiveDailyInventory, fetchNegativeDailyInventory } from '../../../actions';
 import ReportContent from './ReportContent';
 import _ from 'lodash';
-
+import moment from 'moment';
 
 
 class ReportBoard extends React.Component {
+
+    componentDidMount() {
+        this.props.fetchClassStandings(moment().startOf('day'), moment().endOf('day'));
+        this.props.fetchEthnicityGroups(moment().startOf('day'), moment().endOf('day'));
+        this.props.fetchUsers();
+        this.props.fetchPositiveDailyInventory(moment().startOf('day'), moment().endOf('day'));
+        this.props.fetchNegativeDailyInventory(moment().startOf('day'), moment().endOf('day'));
+    }
 
     toggleDrawer = (drawerStatus) => {
         this.props.handleDrawer(drawerStatus);

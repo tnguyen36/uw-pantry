@@ -70,7 +70,7 @@ export default function LineGraph(props) {
       
     return (
         <div>
-            <ReactApexChart options={options} series={[{name: 'Current Weight', data: dataSet}]} type="area" height="400"/>
+            <ReactApexChart options={options} series={[{name: props.dataSetLabel, data: dataSet}]} type="area" height="400"/>
         </div>
     );
 }

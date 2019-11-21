@@ -135,13 +135,13 @@ const InventoryContent = (props) => {
                         </Grid>
                    
                     <Grid item xs={12}>
-                      <LineGraph dateGroups={props.inventoryPosts} getDataSet={getTotalDataSet} title={"Overall Weight Trend - " +  new Date().getFullYear()} tooltipLabel="M/d, h:mm tt" yaxisLabel="Pound (lb)" lineColor="#4b2e83" />
+                      <LineGraph dateGroups={props.inventoryPosts} getDataSet={getTotalDataSet} title={"Overall Weight Trend - " +  new Date().getFullYear()} tooltipLabel="M/d, h:mm tt" yaxisLabel="Pound (lb)" dataSetLabel="Current Weight" lineColor="#4b2e83" />
                     </Grid>
                     <Grid item xs={6}>
-                      <LineGraph dateGroups={props.positiveDaily} getDataSet={getDataSet} title={"Incoming Donation - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" lineColor="#32CD32" />
+                      <LineGraph dateGroups={props.positiveDaily} getDataSet={getDataSet} title={"Incoming Donation - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" dataSetLabel="Total Weight Gain" lineColor="#32CD32" />
                     </Grid>
                     <Grid item xs={6}>
-                      <LineGraph dateGroups={props.negativeDaily} getDataSet={getDataSet} title={"Outgoing Inventory - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" lineColor="#ff0000" />
+                      <LineGraph dateGroups={props.negativeDaily} getDataSet={getDataSet} title={"Outgoing Inventory - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" dataSetLabel="Total Weight Loss" lineColor="#ff0000" />
                     </Grid>                   
                     <Grid item lg={12}>
                       <Table data={props.inventoryPosts} renderColumns={renderColumns} title="History Log" action={action} actionButtonLabel="Delete" deletePosts={props.deletePosts} />

@@ -195,15 +195,15 @@ const ReportContent = props => {
                       <Grid container direction="row">                     
                        <Grid item sm={6} lg={6}>
                                                        
-                               <PieChart labels={props.classStandingsLabels} values={props.classStandingsValues} text="Class Standings" /> 
-                           <PieChart labels={props.ethnicitiesLabels} values={props.ethnicitiesValues} text="Ethnicities" /> 
+                               <PieChart labels={initialData ? ['N/A'] : props.classStandingsLabels} values={initialData ? [0] : props.classStandingsValues} text="Class Standings" /> 
+                           <PieChart labels={initialData ? ['N/A'] : props.ethnicitiesLabels} values={initialData ? [0] : props.ethnicitiesValues} text="Ethnicities" /> 
                             
                                                  
                        </Grid>
                        <Grid item sm={6} lg={6}>
                          
                             <h2 className={classes.statTitle} >User Stats</h2>
-                          <p className={classes.statDescription}>Total New Users <span className={classes.statLabel}>{getTotalUsers(props.classStandingsValues)} users</span></p>
+                          <p className={classes.statDescription}>Total New Users <span className={classes.statLabel}>{initialData ? 0 : getTotalUsers(props.classStandingsValues)} users</span></p>
                           <hr></hr>
                           <h2 className={classes.statTitle}>Household Stats</h2>
                           <p className={classes.statDescription}>Average Household Count <span className={classes.statLabel}>{initialData ? 0 : result} people</span></p>
@@ -211,10 +211,10 @@ const ReportContent = props => {
                           <p className={classes.statDescription}>Off Campus Resident <span className={classes.statLabel}>{initialData ? 0 : addressResult.offCampus} students</span></p>
                           <hr></hr>
                           <h2 className={classes.statTitle}>Inventory Stats</h2>
-                          <p className={classes.statDescription}>Highest donation occured on <strong>{positiveInventoryResult.maxDate}</strong><span className={classes.statLabel}>{positiveInventoryResult.max} lb</span></p>
-                          <p className={classes.statDescription}>Lowest donation occured on <strong>{positiveInventoryResult.minDate}</strong><span className={classes.statLabel}>{positiveInventoryResult.min} lb</span></p>
-                          <p className={classes.statDescription}>Highest inventory loss occured on <strong>{negativeInventoryResult.maxDate}</strong><span className={classes.statLabel}>{negativeInventoryResult.max} lb</span></p>
-                          <p className={classes.statDescription}>Lowest inventory loss occured on <strong>{negativeInventoryResult.minDate}</strong><span className={classes.statLabel}>{negativeInventoryResult.min} lb</span></p>
+                          <p className={classes.statDescription}>Highest donation occured on <strong>{positiveInventoryResult.maxDate}</strong><span className={classes.statLabel}>{initialData ? 0 : positiveInventoryResult.max} lb</span></p>
+                          <p className={classes.statDescription}>Lowest donation occured on <strong>{positiveInventoryResult.minDate}</strong><span className={classes.statLabel}>{initialData ? 0 : positiveInventoryResult.min} lb</span></p>
+                          <p className={classes.statDescription}>Highest inventory loss occured on <strong>{negativeInventoryResult.maxDate}</strong><span className={classes.statLabel}>{initialData ? 0 : negativeInventoryResult.max} lb</span></p>
+                          <p className={classes.statDescription}>Lowest inventory loss occured on <strong>{negativeInventoryResult.minDate}</strong><span className={classes.statLabel}>{initialData ? 0 : negativeInventoryResult.min} lb</span></p>
                                                                                     
                        </Grid>
                    </Grid>
