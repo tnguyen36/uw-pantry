@@ -74,7 +74,7 @@ app.post("/token", function(req, res) {
         if (err) {
             res.send(false)
         } else {
-            decoded.username === 'uwtcei@uw.edu' ? res.send(true) : res.send(false);
+            decoded.username === 'pantry@uw.edu' ? res.send(true) : res.send(false);
         }
     });
 });
@@ -91,56 +91,19 @@ app.post("/users", function(req, res) {
     })
 });
 
-app.get("/users", function(req, res) {
-    const start = moment(req.query.startDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
-    const end = moment(req.query.endDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
-    if (req.query.startDate || req.query.endDate) {
-        User.aggregate([{"$match": {"registerDate":{"$gte": start, "$lte": end}}}], function(err, users) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.send(users)
-            }
-        });
-    } else {   
+app.get("/users", function(req, res) {   
         User.find({}, function(err, users) {
             if (err) {
                 console.log(err);
             } else {
                 res.send(users);
             }
-        })
-    }
+        })   
 });
+
 const year = new Date().getFullYear();
 const month = new Date().getMonth() + 1;
-const winterStart = moment("0101" + year, "MMDDYYYY"); 
-const winterEnd = winterStart.clone().add(89, 'days');
-const springStart = winterEnd.clone().add(1, 'days');
-const springEnd = springStart.clone().add(91, 'days');
-const summerStart = springEnd.clone().add(1, 'days');
-const summerEnd = summerStart.clone().add(90, 'days');
-const fallStart = summerEnd.clone().add(1, 'days');
-const fallEnd = fallStart.clone().add(92, 'days');
 
-const quarter = [
-        {
-            start: fallStart.toDate(),
-            end: fallEnd.toDate()
-        },
-       {
-            start: winterStart.toDate(),
-            end: winterEnd.toDate()
-        },
-       {
-            start: springStart.toDate(),
-            end: springEnd.toDate()
-        },
-         {
-            start: summerStart.toDate(),
-            end: summerEnd.toDate()
-        }
-    ]
 
 app.post("/users/class", function(req, res) {
     const start = moment(req.body.startDate).toDate();
@@ -155,7 +118,7 @@ app.post("/users/class", function(req, res) {
             }
         });
     } else {    
-        User.aggregate([{"$match": {"registerDate":{"$gte": quarter[req.body.quarter].start, "$lte": quarter[req.body.quarter].end}}},{"$group":{"_id":"$classStanding", "total":{"$sum":1}}}], function(err, classStandings) {
+        User.aggregate([{"$group":{"_id":"$classStanding", "total":{"$sum":1}}}], function(err, classStandings) {
             if (err) {
                 console.log(err);
             } else {
@@ -177,14 +140,14 @@ app.post("/users/ethnicity", function(req, res) {
             }
         });
     } else {   
-    User.aggregate([{"$match": {"registerDate":{"$gte": quarter[req.body.quarter].start, "$lte": quarter[req.body.quarter].end}}},{"$group":{"_id":"$ethnicity", "total":{"$sum":1}}}], function(err, ethnicities) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(ethnicities);
-        }
-    });
-}
+        User.aggregate([{"$group":{"_id":"$ethnicity", "total":{"$sum":1}}}], function(err, ethnicities) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(ethnicities);
+            }
+        });
+    }
 })
 
 app.get("/users/dates", function(req, res) {
@@ -240,18 +203,6 @@ app.post("/inventory", function (req, res) {
 });
 
 app.get("/inventory", function (req, res) {
-    const start = moment(req.query.startDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
-    const end = moment(req.query.endDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
-    if (req.query.startDate || req.query.endDate) {
-        Inventory.aggregate([{"$match": {"postedDate":{"$gte": start, "$lte": end}}}], function(err, posts) {
-            if (err) {
-                console.log(err);
-            } else {               
-                res.send(posts);
-            }
-        });
-    } else {
-
     Inventory.find({}, function (err, posts) {
         if (err) {
             console.log(err)
@@ -260,7 +211,6 @@ app.get("/inventory", function (req, res) {
         }
         
     }).sort({'postedDate': 1});
-    }
     
 });
 
@@ -275,6 +225,22 @@ app.post("/inventory/delete", function(req, res) {
 });
 
 app.get("/inventory/daily/positive", function (req, res) {
+    const start = moment(req.query.startDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    const end = moment(req.query.endDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    if (req.query.startDate || req.query.endDate) {
+        Inventory.aggregate([{$addFields: {created_date:{$dateToParts: {date: "$postedDate", timezone: '-0700'}}}},
+                            {$match: {"postedDate":{"$gte": start, "$lte": end}, "operator": "+"}},
+                            {$group: {_id: {day: "$created_date.day", month: "$created_date.month", year: "$created_date.year"}, sum: {$sum:"$weight"}}},
+                            {$project:{_id: 0, sum: 1, day: "$_id.day", date: { $concat: [ { $toString: "$_id.month" }, "/", { $toString: "$_id.day" }, "/", { $toString: "$_id.year" }  ] }}}
+        ],  function(err, posts) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    res.send(posts)
+                }
+            })
+    } else {
+
     Inventory.aggregate([{$project:{"weight": 1, "operator":1, "day":{$dayOfMonth:{date:"$postedDate", timezone: '-0700'}}, "month":{$month:{date:"$postedDate", timezone: '-0700'}}, "year":{$year: "$postedDate"}}},
                         {$match: {"month": month, "operator": "+", "year": year}}, {$group:{"_id":"$day","sum":{$sum:"$weight"},"day":{$first:"$day"}}},
                         {$project:{"_id":0, "sum":1, "day":1}}
@@ -285,9 +251,26 @@ app.get("/inventory/daily/positive", function (req, res) {
             res.send(posts)
         }
     });
+    }
 });
 
 app.get("/inventory/daily/negative", function(req, res) {
+    const start = moment(req.query.startDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    const end = moment(req.query.endDate, 'YYYY-MM-DDTHH:mm:ssZ').toDate();
+    if (req.query.startDate || req.query.endDate) {
+        Inventory.aggregate([{$addFields: {created_date:{$dateToParts: {date: "$postedDate", timezone: '-0700'}}}},
+                            {$match: {"postedDate":{"$gte": start, "$lte": end}, "operator": "-"}},
+                            {$group: {_id: {day: "$created_date.day", month: "$created_date.month", year: "$created_date.year"}, sum: {$sum:"$weight"}}},
+                            {$project:{_id: 0, sum: 1, day: "$_id.day", date: { $concat: [ { $toString: "$_id.month" }, "/", { $toString: "$_id.day" }, "/", { $toString: "$_id.year" }  ] }}}
+        ],  function(err, posts) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    res.send(posts)
+                }
+            })
+    } else {
+
     Inventory.aggregate([{$project:{"weight": 1, "operator":1, "day":{$dayOfMonth:{date:"$postedDate",timezone: "-0700"}}, "month":{$month:{date:"$postedDate", timezone: '-0700'}}, "year":{$year: "$postedDate"}}},
                         {$match: {"month": month, "operator": "-", "year": year}}, {$group:{"_id":"$day","sum":{$sum:"$weight"},"day":{$first:"$day"}}},
                         {$project:{"_id":0, "sum":1, "day":1}}
@@ -298,6 +281,7 @@ app.get("/inventory/daily/negative", function(req, res) {
             res.send(posts)
         }
     });
+}
 });
 
 

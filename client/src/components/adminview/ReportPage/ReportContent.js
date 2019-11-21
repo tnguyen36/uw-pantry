@@ -9,6 +9,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { Button } from '@material-ui/core';
 import moment from 'moment';
 import PieChart from '../PieChart';
+import _ from 'lodash';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -62,7 +63,8 @@ const useStyles = makeStyles(theme => ({
       marginLeft: '0.5rem'
     },
     statTitle: {
-      margin: 0
+      margin: 0,
+      color: '#4b2e83'
     },
     submit: {
       backgroundColor: '#3f51b5',
@@ -76,8 +78,6 @@ const useStyles = makeStyles(theme => ({
 function onSubmit(startDate, endDate, props) {
   startDate = startDate.startOf('day');
   endDate = endDate.endOf('day');
-  console.log(startDate);
-  console.log(endDate);
   props.getClassStandings(startDate, endDate)
 }
 
@@ -93,57 +93,74 @@ function getTotalUsers(props) {
 }
 
 function getHouseHoldStats(users) {
-  var result = {avg: 0, min: 0, max: 0};
+  var avg = 0;
+  if (users && users.length !== 0) {   
+     avg = (users.reduce((a, b) => a + b) / users.length).toFixed(2);        
+     return avg;
+  }
+  return avg;
+}
+
+function getAddressStats(users) {
+  var result = {offCampus: 0, onCampus: 0};
+  var court17 = '1717 Market St';
   if (users && users.length !== 0) {
-    var max = users.reduce((a, b) => Math.max(a, b));
-    var min= users.reduce((a, b) => Math.min(a, b));
-    var avg = (users.reduce((a, b) => a + b) / users.length).toFixed(2);    
-    result.avg = avg;  
-    result.min = min;
-    result.max = max;
+    for (var i = 0; i < users.length; i++) {
+      users[i].address.toUpperCase().includes(court17.toUpperCase()) ? result.onCampus += 1 : result.offCampus += 1;              
+    }
+  }
+  return result;
+
+}
+
+
+function getInventoryStats(posts) {
+  var max = 0;
+  var maxDate = 'N/A';
+  var minDate = 'N/A';
+  var min = Number.POSITIVE_INFINITY;
+  if (posts && posts.length !== 0) {
+    for (var i = 0; i < posts.length; i++) {
+      if (posts[i].sum > max) {
+        max = posts[i].sum;
+        maxDate = posts[i].date;
+      }
+      if (posts[i].sum < min) {
+        min = posts[i].sum;
+        minDate = posts[i].date
+      }
+     
+    }
+    return {max, min, maxDate, minDate}
+  }
+  min = 0;
+  return {max, min, maxDate, minDate}
+}
+
+function filterUsers(users, startDate, endDate) {
+  var result = [];
+  if (users && users.length !== 0) {
+    for (var i = 0; i < users.length; i++) {
+      const registerDate = moment(users[i].registerDate)
+      if (registerDate >= startDate && registerDate <= endDate) {
+        result.push(users[i]);
+      }
+    }
     return result;
   }
   return result;
 }
 
-function getInventoryStats(posts) {
-  var maxPositive = 0;
-  var maxNegative = 0;
-  var minPositive = Number.POSITIVE_INFINITY;
-  var minNegative = Number.POSITIVE_INFINITY;
-  if (posts && posts.length !== 0) {
-    for (var i = 0; i < posts.length; i++) {
-      if (posts[i].operator === '+' && posts[i].weight > maxPositive) {
-        maxPositive = posts[i].weight;
-      } else if (posts[i].operator === '+' && posts[i].weight < minPositive) {
-        minPositive = posts[i].weight;
-      } else if (posts[i].operator === '-' && posts[i].weight > maxNegative) {
-        maxNegative = posts[i].weight;
-      } else {
-        minNegative = posts[i].weight;
-      }
-    }
-    if (minPositive === Number.POSITIVE_INFINITY) {
-      minPositive = 0
-    }  
-    if (minNegative === Number.POSITIVE_INFINITY) {
-      minNegative = 0;
-    }
-    return {maxPositive, minPositive, maxNegative, minNegative}
-    
-  }
-  minPositive = 0;
-  minNegative = 0;
-  return {maxPositive, minPositive, maxNegative, minNegative}
-}
-
 const ReportContent = props => {
-    const classes = useStyles();
+    const classes = useStyles();   
     const [startDate, setStartDate] = React.useState(moment());
     const [endDate, setEndDate] = React.useState(moment());
     const [initialData, toggleInitialData] = React.useState(true);
-    const result = getHouseHoldStats(props.user);
-    const inventoryResult = getInventoryStats(props.inventoryPosts);
+    const users = filterUsers(props.users, startDate, endDate);
+    const result = getHouseHoldStats(_.map(users, 'householdNumber'));
+    const positiveInventoryResult = getInventoryStats(props.positiveDaily);
+    const negativeInventoryResult = getInventoryStats(props.negativeDaily);
+    const addressResult = getAddressStats(users);
     return (
         <div className={classes.root}>
             <DashHeader toggleDrawer={props.toggleDrawer} drawerStatus={props.drawerStatus} title={"Summary Report"} />
@@ -186,18 +203,19 @@ const ReportContent = props => {
                        <Grid item sm={6} lg={6}>
                          
                             <h2 className={classes.statTitle} >User Stats</h2>
-                          <p className={classes.statDescription}>Total New Users <span className={classes.statLabel}>{getTotalUsers(props.classStandingsValues)}</span></p>
+                          <p className={classes.statDescription}>Total New Users <span className={classes.statLabel}>{getTotalUsers(props.classStandingsValues)} users</span></p>
                           <hr></hr>
                           <h2 className={classes.statTitle}>Household Stats</h2>
-                          <p className={classes.statDescription}>Average Household Count <span className={classes.statLabel}>{initialData ? 0 : result.avg}</span></p>
-                          <p className={classes.statDescription}>Lowest Household Count <span className={classes.statLabel}>{initialData ? 0 : result.min}</span></p>
-                          <p className={classes.statDescription}>Highest Household Count <span className={classes.statLabel}>{initialData ? 0 : result.max}</span></p>
+                          <p className={classes.statDescription}>Average Household Count <span className={classes.statLabel}>{initialData ? 0 : result} people</span></p>
+                          <p className={classes.statDescription}>On Campus Resident <span className={classes.statLabel}>{initialData ? 0 : addressResult.onCampus} students</span></p>
+                          <p className={classes.statDescription}>Off Campus Resident <span className={classes.statLabel}>{initialData ? 0 : addressResult.offCampus} students</span></p>
                           <hr></hr>
                           <h2 className={classes.statTitle}>Inventory Stats</h2>
-                          <p className={classes.statDescription}>Lowest Donation <span className={classes.statLabel}>{inventoryResult.minPositive}</span></p>
-                          <p className={classes.statDescription}>Highest Donation <span className={classes.statLabel}>{inventoryResult.maxPositive}</span></p>
-                          <p className={classes.statDescription}>Lowest Outgoing Loss<span className={classes.statLabel}>{inventoryResult.minNegative}</span></p>
-                          <p className={classes.statDescription}>Highest Outgoing Loss <span className={classes.statLabel}>{inventoryResult.maxNegative}</span></p>                                                             
+                          <p className={classes.statDescription}>Highest donation occured on <strong>{positiveInventoryResult.maxDate}</strong><span className={classes.statLabel}>{positiveInventoryResult.max} lb</span></p>
+                          <p className={classes.statDescription}>Lowest donation occured on <strong>{positiveInventoryResult.minDate}</strong><span className={classes.statLabel}>{positiveInventoryResult.min} lb</span></p>
+                          <p className={classes.statDescription}>Highest inventory loss occured on <strong>{negativeInventoryResult.maxDate}</strong><span className={classes.statLabel}>{negativeInventoryResult.max} lb</span></p>
+                          <p className={classes.statDescription}>Lowest inventory loss occured on <strong>{negativeInventoryResult.minDate}</strong><span className={classes.statLabel}>{negativeInventoryResult.min} lb</span></p>
+                                                                                    
                        </Grid>
                    </Grid>
                    </Paper>

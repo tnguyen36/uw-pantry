@@ -8,10 +8,26 @@ import renderSelectField from './fields/renderSelectField';
 import validate from '../formValidation';
 import '../style.css';
 import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
 
+const styles = makeStyles(theme => ({
+    button: {
+        // backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)',
+        marginTop: theme.spacing(3),
+        marginLeft: theme.spacing(1),
+        
+
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'flex-end'
+    }
+
+}));
 
 const AccountForm = (props) => {
     const { handleSubmit } = props;
+    const classes = styles();
     return (
         <div>
             <Container maxWidth="sm">
@@ -35,11 +51,11 @@ const AccountForm = (props) => {
                     </Grid>
                     <Grid item xs={12}>
                     <Field name="classStanding" component={renderSelectField} label="Class Standing" selectValues={classStanding} />
-                    </Grid>  
-                    <Grid item xs={6}>
-                <Button className="form-button" type="submit" variant="contained" color="primary">Next</Button>
-                </Grid>    
+                    </Grid>                    
                 </Grid>
+                <div className={classes.buttons}>
+                    <Button style={{backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'}} className={classes.button} type="submit" variant="contained" color="primary">Next</Button>
+                </div>
                    
                               
             </form>

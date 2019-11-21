@@ -47,7 +47,7 @@ const StudentLoginForm = (props) => {
                         <h4 className="form-title">Admin Login</h4>
                         <form onSubmit={props.handleSubmit} className={classes.form}>
                             <Field name="username" component={renderField} type="text" label="Username" margin="normal" />
-                            <Field name="password" component={renderField} type="text" label="Password" margin="normal" />
+                            <Field name="password" component={renderField} type="password" label="Password" margin="normal" />
                             <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>Sign In</Button>
                         </form>
                     </div>

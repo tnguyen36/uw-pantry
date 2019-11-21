@@ -6,10 +6,10 @@ const validate = formValues => {
     if (/[^a-zA-Z]/i.test(formValues.lastName)) {
         errors.lastName = "Invalid Name";
     }
-    if (/[^a-zA-Z0-9]/i.test(formValues.address)) {
+    if (/[^a-zA-Z0-9 ]/i.test(formValues.address)) {
         errors.address = "Invalid Address"
     }
-    if (/[^a-zA-Z]/i.test(formValues.city)) {
+    if (/[^a-zA-Z ]/i.test(formValues.city)) {
         errors.city = "Invalid City"
     }
     if (!formValues.classStanding) {
@@ -23,6 +23,9 @@ const validate = formValues => {
     }
     if (!formValues.race) {
         errors.race = "Required";
+    }
+    if (formValues.householdNumber && !formValues.members) {
+        errors.householdNumber = "Please add members according to this number";
     }
     if (formValues.members) {
         if (parseInt(formValues.householdNumber, 10) !== formValues.members.length) {

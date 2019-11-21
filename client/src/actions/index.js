@@ -42,8 +42,8 @@ export const createUser = (formValues) => async dispatch => {
     }   
 };
 
-export const fetchUsers = (startDate, endDate) => async dispatch => {
-    const response = await axios.get('/users', {params: { startDate, endDate}});
+export const fetchUsers = () => async dispatch => {
+    const response = await axios.get('/users');
     dispatch({type: 'FETCH_USERS', payload: response.data});
 };
 
@@ -52,8 +52,9 @@ export const fetchDailyUsers = () => async dispatch => {
     dispatch({type: 'FETCH_DAILY_USERS', payload: response.data.length});
 }
 
-export const fetchClassStandings = (quarter = 0, startDate, endDate) => async dispatch => {
-    const response = await axios.post('/users/class', {quarter, startDate, endDate});
+export const fetchClassStandings = (startDate, endDate) => async dispatch => {
+    const response = await axios.post('/users/class', {startDate, endDate});
+    console.log(response.data);
     if(response.data.length === 0) {
         response.data = [{_id: 'N/A', total: 0}]
     }
@@ -65,8 +66,8 @@ export const fetchDateGroups = () => async dispatch => {
     dispatch({type: 'FETCH_DATE_GROUPS', payload: response.data});
 }
 
-export const fetchEthnicityGroups = (quarter = 0, startDate, endDate) => async dispatch => {
-    const response = await axios.post('/users/ethnicity', {quarter, startDate, endDate});
+export const fetchEthnicityGroups = (startDate, endDate) => async dispatch => {
+    const response = await axios.post('/users/ethnicity', {startDate, endDate});
     if(response.data.length === 0) {
         response.data = [{_id: 'N/A', total: 0}]
     }
@@ -111,9 +112,8 @@ export const createInventoyPost = (weight, operator, name, currentWeight) => asy
     dispatch({type: 'CREATE_INVENTORY_POST', payload: response.data})
 }
 
-export const fetchInventoryPosts = (startDate, endDate) => async dispatch => {
-    const response = await axios.get("/inventory", {params: { startDate, endDate}});
-    console.log(response.data);
+export const fetchInventoryPosts = () => async dispatch => {
+    const response = await axios.get("/inventory");
     dispatch({type: 'FETCH_INVENTORY_POSTS', payload: response.data});
 }
 
@@ -124,13 +124,14 @@ export const deleteInventoryPost = (posts) => async dispatch => {
 
 }
 
-export const fetchPositiveDailyInventory = () => async dispatch => {
-    const response = await axios.get("/inventory/daily/positive");
+export const fetchPositiveDailyInventory = (startDate, endDate) => async dispatch => {
+    const response = await axios.get("/inventory/daily/positive", {params: { startDate, endDate}});
+    console.log(response.data);
     dispatch({type: 'FETCH_POSITIVE_DAILY', payload: response.data});
 }
 
-export const fetchNegativeDailyInventory = () => async dispatch => {
-    const response = await axios.get("/inventory/daily/negative");
+export const fetchNegativeDailyInventory = (startDate, endDate) => async dispatch => {
+    const response = await axios.get("/inventory/daily/negative", {params: { startDate, endDate}});
     dispatch({type: 'FETCH_NEGATIVE_DAILY', payload: response.data});
 }
 

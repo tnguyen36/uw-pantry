@@ -27,9 +27,9 @@ class Dashboard extends React.Component {
         this.props.handleDrawer(drawerStatus);
     }
 
-    changeQuarter = (quarter) => {
-        this.props.fetchClassStandings(quarter);
-        this.props.fetchEthnicityGroups(quarter);
+    changeQuarter = () => {
+        this.props.fetchClassStandings();
+        this.props.fetchEthnicityGroups();
     }
 
     changeData = () => {

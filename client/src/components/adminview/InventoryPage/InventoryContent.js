@@ -143,7 +143,7 @@ const InventoryContent = (props) => {
                     <Grid item xs={6}>
                       <LineGraph dateGroups={props.negativeDaily} getDataSet={getDataSet} title={"Outgoing Inventory - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" lineColor="#ff0000" />
                     </Grid>                   
-                    <Grid item lg={8}>
+                    <Grid item lg={12}>
                       <Table data={props.inventoryPosts} renderColumns={renderColumns} title="History Log" action={action} actionButtonLabel="Delete" deletePosts={props.deletePosts} />
                     </Grid>
                     </Grid>

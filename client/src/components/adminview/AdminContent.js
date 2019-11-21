@@ -63,7 +63,6 @@ function getDailyWeight(props, day) {
 
 const AdminContent = (props) => {
     const classes = useStyles();
-    const year = new Date().getFullYear();
     const day = new Date().getDate();
     const weightGain = getDailyWeight(props.positiveDaily, day);
     const weightLoss = getDailyWeight(props.negativeDaily, day);
@@ -74,13 +73,6 @@ const AdminContent = (props) => {
       <main className={classes.content} onClick={() => props.toggleDrawer(true)}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <h3 className={classes.quarterTitle}>Select Quarter:</h3>
-          <select onChange={(event) => props.changeQuarter(event.target.value)}>
-            <option value="0">Fall {year}</option>
-            <option value="1">Winter {year}</option>
-            <option value="2">Spring {year}</option>
-            <option value="3">Summer {year}</option>
-          </select>
           <Grid container spacing={3} direction="row">
           <Grid className={classes.background} item xs={6} md={4} lg={3}>
             <Paper style={{backgroundImage: 'linear-gradient(230deg, #759bff, #843cf6)'}} className={fixedHeightStat}>
