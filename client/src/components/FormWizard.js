@@ -9,10 +9,8 @@ import Container from '@material-ui/core/Container';
 import SnackBar from './SnackBar';
 import Header from './Header';
 import '../style.css';
+import history from '../history';
 import { socket } from '../socket';
-
-
-
 
 
 class FormWizard extends React.Component {
@@ -38,11 +36,17 @@ class FormWizard extends React.Component {
       
     }
 
+    redirectUser = () => {
+        history.push('/');
+        return null;
+    }
  
     render() {
-        const { page } = this.state;
-        
-        
+        if (!this.props.location.state) {
+           return this.redirectUser() 
+        } else {
+
+        const { page } = this.state;  
         return (
             <div className="register-page">
                 <Header location={window.location.pathname} />
@@ -52,9 +56,9 @@ class FormWizard extends React.Component {
                         <h4 className="form-subtitle">Fill all form fields to continue</h4>
                         
                         <FormStepper activeStep={this.state.page - 1} />
-                        {page === 1 && <AccountForm onSubmit={this.nextPage} />}
-                        {page === 2 && <PersonalForm previousPage={this.previousPage} onSubmit={this.nextPage} />}
-                        {page === 3 && <HouseholdForm previousPage={this.previousPage} onSubmit={this.onSubmit} />}
+                        {page === 1 && <AccountForm onSubmit={this.nextPage} form="userForm" />}
+                        {page === 2 && <PersonalForm previousPage={this.previousPage} form="userForm" onSubmit={this.nextPage} />}
+                        {page === 3 && <HouseholdForm previousPage={this.previousPage} form="userForm" onSubmit={this.onSubmit} />}                       
                     </div>
 
                 </Container>
@@ -63,10 +67,11 @@ class FormWizard extends React.Component {
         );
     }
 }
+}
 
 const mapStateToProps = state => {
     return ({
-        error: state.error
+        error: state.error,
     })
 }
 

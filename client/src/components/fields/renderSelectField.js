@@ -18,7 +18,6 @@ const renderSelectField = ({input, label, type, meta: {touched, error}, selectVa
             InputLabelProps={{
                 shrink: true,
               }}
-            required
             {...input}
         >
         {selectValues.map(option => (

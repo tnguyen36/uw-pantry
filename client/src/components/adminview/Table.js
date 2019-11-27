@@ -109,7 +109,7 @@ const Table = (props) => {
                         
                     }
                 }}
-                detailPanel={!props.detailPanel ? false : (rowData) => props.detailPanel(rowData)}
+                detailPanel={!props.detailPanel ? null : (rowData) => props.detailPanel(rowData)}
                 actions={props.action(props, classes, actionButton)}
                 />
                 </MuiThemeProvider>

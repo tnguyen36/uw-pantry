@@ -6,6 +6,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import HouseIcon from '@material-ui/icons/House';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 import StepConnector from '@material-ui/core/StepConnector';
 import clsx from 'clsx';
 
@@ -66,6 +67,7 @@ const FormStepper = props => {
       1: <AccountCircleIcon />,
       2: <HouseIcon />,
       3: <GroupAddIcon />,
+      4: <FastfoodIcon />,
     };
   
     return (
@@ -94,7 +96,14 @@ const FormStepper = props => {
   }));
 
   function getSteps() {
-    return ['ACCOUNT', 'PERSONAL', 'HOUSEHOLD'];
+    if (window.location.pathname === '/order/new') {
+      return ['ACCOUNT', 'PERSONAL', 'HOUSEHOLD', 'ORDER'];
+    } else if (window.location.pathname === '/order/returning') {
+      return ['ORDER'];
+    } else {
+      return ['ACCOUNT', 'PERSONAL', 'HOUSEHOLD'];
+    }
+   
   }
   const classes = useStyles();
   const steps = getSteps();

@@ -16,6 +16,7 @@ const renderField = ({input, label, type, meta: {touched, error}}) => {
                 shrink: true,
               }}
             required
+            
             {...input}
         />
         <p style={{color: 'red', fontSize: '13px', margin: '0'}}>{error}</p>

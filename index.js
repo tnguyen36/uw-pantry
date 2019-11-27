@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var User = require("./models/user");
 var Inventory = require("./models/inventory");
 var Admin = require("./models/admin");
+var ReturningUser = require("./models/returninguser");
 var moment = require("moment");
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
@@ -69,6 +70,26 @@ app.get("/admin", function(req, res) {
     })
 });
 
+app.post("/admin/code", function(req, res) {
+    Admin.updateOne({username: 'pantry@uw.edu'}, {$set:{accessCode: req.body.accessCode}}, function(err) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send('success')
+        }
+    });
+});
+
+app.get("/admin/code", function(req, res) {
+    Admin.findOne({username: 'pantry@uw.edu'}, function(err, admin) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(admin)
+        }
+    });
+});
+
 app.post("/token", function(req, res) {
     jwt.verify(req.body.token, 'rusty', function(err, decoded) {
         if (err) {
@@ -90,6 +111,26 @@ app.post("/users", function(req, res) {
         }
     })
 });
+
+app.post("/users/returning", function(req, res) {
+    ReturningUser.create(req.body, function(err, user) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(user)
+        }
+    })
+});
+
+app.get("/users/returning", function(req, res) {
+    ReturningUser.find({}, function(err, users) {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(users)
+        }
+    })
+})
 
 app.get("/users", function(req, res) {   
         User.find({}, function(err, users) {
@@ -187,6 +228,38 @@ app.post("/users/transfer", function (req, res) {
            });
        }
    });   
+});
+
+app.post("/users/process", function(req, res) {
+    User.updateMany({_id: {$in: req.body}}, {$set: {"orderPost.0.orderStatus" : "Completed"}}, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            User.find({}, function(err, users) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send(users)
+                }
+            });
+        }
+    });   
+});
+
+app.post("/users/returning/process", function(req, res) {
+    ReturningUser.updateMany({_id: {$in: req.body}}, {$set: {"orderPost.0.orderStatus" : "Completed"}}, function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            ReturningUser.find({}, function(err, users) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send(users)
+                }
+            });
+        }
+    });   
 });
 
 app.post("/inventory", function (req, res) {

@@ -12,8 +12,10 @@ import '../../style.css';
 
 const letters = value => /[^a-zA-Z]/i.test(value) ? 'Invalid Name' : undefined;
 
-const renderMemberFields = ({ fields, meta: { error, submitFailed }}) => (
+const renderMemberFields = ({ fields, meta: { error, submitFailed }, setMembers}) => (
+      
       <div>
+      {setMembers(fields.getAll())}
       {fields.map((member, index) => (
         <div className="member-group" key={index}>
           <Grid

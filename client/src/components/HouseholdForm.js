@@ -18,40 +18,53 @@ const styles = makeStyles(theme => ({
     buttons: {
         display: 'flex',
         justifyContent: 'flex-end'
+    },
+    errorText: {
+        color: 'red',
+        margin: 0
     }
 
 }));
 
-function initializeFields(count) {
-    var result = [];
-    for (var i = 0; i < count; i++) {
-        result.push({firstName: ""})
+const validateForm = (houseNumber, members) => {
+    if (houseNumber > 0 && !members) {
+        return true
+    } else if (members) {
+        if (parseInt(houseNumber, 10) !== members.length) {
+            return true
+        } else {
+            return false
+        }
     }
-    return result;
+    return false
 }
+
 
 const HouseholdForm = (props) => {
     const { handleSubmit, previousPage } = props;
-    const[count, setFieldCount] = React.useState(0);
-    const classes = styles();
+    const [houseNumber, setHouseNumber] = React.useState(0);
+    const [members, setMembers] = React.useState([]);
+    var error = validateForm(houseNumber, members);
+;   const classes = styles();
     return (
         <div>
             <Container maxWidth="sm">
                 <h4 className="form-step-title">Household Information</h4>
-                <h4 className="step-label">Step 3 / 3</h4>
+                <h4 className="step-label">{`Step 3 / ${window.location.pathname === '/order/new' ? '4' : '3'}`}</h4>
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3} direction="row"  alignItems="center">
                         <Grid item xs={12}>
-                            <Field name="householdNumber" component={renderField} label="# of people in household (including self)" type="number" onChange={(event) => setFieldCount(event.target.value)} />
+                            <Field name="householdNumber" onChange={(e) => setHouseNumber(e.target.value)} component={renderField} label="# of people in household (including self)" type="number"/>
+                            {error && <h5 className={classes.errorText}>Please add members below according to this number</h5>}
                         </Grid>
                         <Grid item xs={12}>
                             <p><strong>For each member in household (including self):</strong></p>
-                            <FieldArray name="members" component={renderMemberFields} />
+                            <FieldArray name="members" setMembers={setMembers} component={renderMemberFields} />
                         </Grid>
                     </Grid>                   
                         <div className={classes.buttons}>
                             <Button className={classes.button} variant="contained"  onClick={previousPage}>Back</Button>                      
-                            <Button style={{backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'}} className={classes.button} variant="contained" color="primary" type="submit">Submit</Button>
+                            <Button style={{backgroundImage: '-webkit-radial-gradient(left bottom,rgba(159,88,150,0) 0,rgba(159,88,150,0.6) 100%)'}} disabled={error} className={classes.button} variant="contained" color="primary" type="submit">{window.location.pathname === '/order/new' ? 'Next' : 'Submit'}</Button>
                         </div>
                     
                 </form>
@@ -61,7 +74,6 @@ const HouseholdForm = (props) => {
 }
 
 export default reduxForm({
-    form: 'userForm',
     destroyOnUnmount: false,
     validate,
 }) (HouseholdForm);

@@ -17,7 +17,7 @@ export const onSignIn = (formValues) => async dispatch => {
 export const onSignOut = () => async dispatch => {
     localStorage.removeItem('jwtToken');
     dispatch({type: 'SIGN_OUT'});
-    dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Log Out!'});
+    // dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Log Out!'});
     dispatch({type: 'SET_INDEX', payload: 0});
  };
 
@@ -38,9 +38,20 @@ export const createUser = (formValues) => async dispatch => {
     } else {
         dispatch({type: 'CREATE_USER', payload: response.data});
         dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Registered!'});
-        setTimeout(() => window.location.reload(), 1300);
+        setTimeout(() => history.push('/'), 1300);
     }   
 };
+
+export const createReturningUser = (formValues) => async dispatch => {
+    const response = await axios.post('/users/returning', formValues);
+    dispatch({type: 'CREATE_RETURNING_USER', payload: response.data});
+    setTimeout(() => history.push('/'), 1300);
+}
+
+export const fetchReturningUsers = () => async dispatch => {
+    const response = await axios.get('/users/returning');
+    dispatch({type: 'FETCH_RETURNING_USERS', payload: response.data})
+}
 
 export const fetchUsers = () => async dispatch => {
     const response = await axios.get('/users');
@@ -54,7 +65,6 @@ export const fetchDailyUsers = () => async dispatch => {
 
 export const fetchClassStandings = (startDate, endDate) => async dispatch => {
     const response = await axios.post('/users/class', {startDate, endDate});
-    console.log(response.data);
     if(response.data.length === 0) {
         response.data = [{_id: 'N/A', total: 0}]
     }
@@ -106,6 +116,18 @@ export const transferUser = (users) => async dispatch => {
     
 }
 
+export const processOrder = (users) => async dispatch => {
+    const userIds = users.map(user => user._id);
+    const response = await axios.post('/users/process', userIds);
+    dispatch({type: 'UPDATE_USERS', payload: response.data});
+}
+
+export const processReturningUserOrder = (users) => async dispatch => {
+    const userIds = users.map(user => user._id);
+    const response = await axios.post('/users/returning/process', userIds);
+    dispatch({type: 'UPDATE_RETURNING_USERS', payload: response.data});
+}
+
 export const createInventoyPost = (weight, operator, name, currentWeight) => async dispatch => {
     const data = {weight, operator, name, currentWeight};
     const response = await axios.post("/inventory", data);
@@ -126,7 +148,6 @@ export const deleteInventoryPost = (posts) => async dispatch => {
 
 export const fetchPositiveDailyInventory = (startDate, endDate) => async dispatch => {
     const response = await axios.get("/inventory/daily/positive", {params: { startDate, endDate}});
-    console.log(response.data);
     dispatch({type: 'FETCH_POSITIVE_DAILY', payload: response.data});
 }
 

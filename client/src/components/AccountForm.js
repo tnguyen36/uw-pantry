@@ -32,7 +32,7 @@ const AccountForm = (props) => {
         <div>
             <Container maxWidth="sm">
             <h4 className="form-step-title">Account Information</h4>
-            <h4 className="step-label">Step 1 / 3</h4>     
+            <h4 className="step-label">{`Step 1 / ${window.location.pathname === '/order/new' ? '4' : '3'}`}</h4>     
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={3} direction="row"  alignItems="center" justify="center">
                     <Grid item xs={6}>             
@@ -65,7 +65,6 @@ const AccountForm = (props) => {
 }
 
 export default reduxForm({
-    form: 'userForm',
     destroyOnUnmount: false,
     validate
 })(AccountForm);

@@ -5,14 +5,17 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
 import LayersIcon from '@material-ui/icons/Layers';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import SettingsIcon from '@material-ui/icons/Settings';
 import List from '@material-ui/core/List';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {setItemIndex, fetchUsers} from '../../actions';
+import {setItemIndex, fetchUsers, fetchReturningUsers} from '../../actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWeightHanging } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from '@material-ui/core/Tooltip';
 import Badge from '@material-ui/core/Badge';
+import { socket } from '../../socket';
 import '../../style.css';
 
 
@@ -21,10 +24,17 @@ class ListItemContent extends React.Component {
 
   componentDidMount() {
     this.props.fetchUsers();
+    this.props.fetchReturningUsers();
+    socket.on('change_data', this.changeData);
   }
 
   setIndex(index) {
     this.props.setItemIndex(index);
+  }
+
+  changeData = () => {
+    this.props.fetchUsers();
+    this.props.fetchReturningUsers();
   }
 
   getNotificationCount() {
@@ -33,6 +43,30 @@ class ListItemContent extends React.Component {
       if (this.props.users[i].status === 'Pending') {
         count += 1;
       }
+    }
+    return count;
+  }
+
+  getOrderNotificationCount() {
+    var count = 0;
+    for (var i = 0; i < this.props.users.length; i++) {
+      if (this.props.users[i].orderPost.length !== 0) {
+        if (this.props.users[i].orderPost[0].orderStatus === 'Pending') {
+          count += 1;
+        }
+       
+      }
+    }
+    return count;
+  }
+
+  getReturningUserNotificationCount() {
+    var count = 0;
+    for (var i = 0; i < this.props.returningUsers.length; i++) {
+      
+        if (this.props.returningUsers[i].orderPost[0].orderStatus === 'Pending') {
+          count += 1;
+        }
     }
     return count;
   }
@@ -85,6 +119,28 @@ class ListItemContent extends React.Component {
         </ListItem>
         </Link>
         </Tooltip>
+        <Tooltip title="Online Order" placement="right">
+        <Link style={{textDecoration: 'none', color: 'black'}} to="/dashboard/order">
+        <ListItem button selected={this.props.selectedIndex === 4} onClick={() => this.setIndex(4)}>
+          <ListItemIcon>
+            <Badge badgeContent={this.getOrderNotificationCount() + this.getReturningUserNotificationCount()} color="secondary">
+              <ShoppingCartIcon className="list-item-icon" />
+            </Badge>
+          </ListItemIcon>
+          <ListItemText primary="Online Order" />
+        </ListItem>
+        </Link>
+        </Tooltip>
+        <Tooltip title="Admin Settings" placement="right">
+        <Link style={{textDecoration: 'none', color: 'black'}} to="/dashboard/setting">
+        <ListItem button selected={this.props.selectedIndex === 5} onClick={() => this.setIndex(5)}>
+          <ListItemIcon>
+            <SettingsIcon className="list-item-icon" />
+          </ListItemIcon>
+          <ListItemText primary="Admin Settings" />
+        </ListItem>
+        </Link>
+        </Tooltip>
         </List>
       </div>
     );
@@ -93,11 +149,12 @@ class ListItemContent extends React.Component {
 const mapStateToProps = state => {
   return {
     selectedIndex: state.itemIndex,
-    users: Object.values(state.users)
+    users: Object.values(state.users),
+    returningUsers: Object.values(state.returningUsers)
   }
 }
 
- export default connect(mapStateToProps, {setItemIndex, fetchUsers}) (ListItemContent);
+ export default connect(mapStateToProps, {setItemIndex, fetchUsers, fetchReturningUsers}) (ListItemContent);
   
   // export const secondaryListItems = (
   //   <div>

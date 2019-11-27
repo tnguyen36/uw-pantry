@@ -26,7 +26,7 @@ const CustomerContent = (props) => {
     const classes = useStyles(); 
     return (
         <div className={classes.root}>
-            <DashHeader toggleDrawer={props.toggleDrawer} drawerStatus={props.drawerStatus} title={"Customers"} />
+            <DashHeader toggleDrawer={props.toggleDrawer} drawerStatus={props.drawerStatus} title="Customers" />
             <main className={classes.content} onClick={() => props.toggleDrawer(true)}>
             <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>

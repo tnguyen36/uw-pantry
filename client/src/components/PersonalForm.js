@@ -33,7 +33,7 @@ const PersonalForm = (props) => {
         <div>
             <Container maxWidth="sm">
                 <h4 className="form-step-title">Personal Information</h4>
-                <h4 className="step-label">Step 2 / 3</h4>         
+                <h4 className="step-label">{`Step 2 / ${window.location.pathname === '/order/new' ? '4' : '3'}`}</h4>         
                 <form onSubmit={handleSubmit}>
                     <Grid item xs={12}> 
                     <Field name="address" component={renderField} label="Address" type="text" />
@@ -67,7 +67,6 @@ const PersonalForm = (props) => {
 }
 
 export default reduxForm({
-    form: 'userForm',
     destroyOnUnmount: false,
     validate
 }) (PersonalForm);

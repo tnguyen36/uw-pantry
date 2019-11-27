@@ -21,17 +21,7 @@ const validate = formValues => {
     if (!formValues.military) {
         errors.military = "Required";
     }
-    if (!formValues.race) {
-        errors.race = "Required";
-    }
-    if (formValues.householdNumber && !formValues.members) {
-        errors.householdNumber = "Please add members according to this number";
-    }
-    if (formValues.members) {
-        if (parseInt(formValues.householdNumber, 10) !== formValues.members.length) {
-            errors.householdNumber = "Please add members according to this number";
-        }
-    }
+     
     return errors;
     
    

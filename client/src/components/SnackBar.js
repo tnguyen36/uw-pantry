@@ -74,7 +74,7 @@ export default function CustomizedSnackbars(props) {
           horizontal: 'center',
         }}
         open={open}
-        autoHideDuration={2000}
+        autoHideDuration={1000}
         TransitionComponent= {SlideTransition}
         onClose={() => { props.offSnackBar() }}
       >
