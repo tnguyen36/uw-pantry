@@ -11,15 +11,21 @@ import Header from './Header';
 import '../style.css';
 import history from '../history';
 import { socket } from '../socket';
+import { reset } from 'redux-form';
 
 
 class FormWizard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 1
+            page: 1,
+            householdNumber: 0
         }
         this.error = this.props.error;
+    }
+
+    componentWillUnmount() {
+        this.props.reset('userForm')
     }
 
     nextPage = () => {
@@ -28,6 +34,10 @@ class FormWizard extends React.Component {
 
     previousPage = () => {
         this.setState({ page: this.state.page - 1});
+    }
+
+    setHouseholdNumber = (number) => {
+        this.setState({householdNumber: number})
     }
 
     onSubmit = async (formValues) => {    
@@ -58,7 +68,7 @@ class FormWizard extends React.Component {
                         <FormStepper activeStep={this.state.page - 1} />
                         {page === 1 && <AccountForm onSubmit={this.nextPage} form="userForm" />}
                         {page === 2 && <PersonalForm previousPage={this.previousPage} form="userForm" onSubmit={this.nextPage} />}
-                        {page === 3 && <HouseholdForm previousPage={this.previousPage} form="userForm" onSubmit={this.onSubmit} />}                       
+                        {page === 3 && <HouseholdForm previousPage={this.previousPage} form="userForm" setHouseholdNumber={this.setHouseholdNumber} householdNumber={this.state.householdNumber} onSubmit={this.onSubmit} />}                       
                     </div>
 
                 </Container>
@@ -75,4 +85,4 @@ const mapStateToProps = state => {
     })
 }
 
-export default connect(mapStateToProps, {createUser, offSnackBar}) (FormWizard);
+export default connect(mapStateToProps, {createUser, offSnackBar, reset}) (FormWizard);

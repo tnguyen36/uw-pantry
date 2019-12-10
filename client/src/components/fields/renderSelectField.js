@@ -22,7 +22,7 @@ const renderSelectField = ({input, label, type, meta: {touched, error}, selectVa
         >
         {selectValues.map(option => (
             <MenuItem key={option.value} value={option.value}>
-                {option.label}
+                {option.label === 'Choose' ? <strong>{option.label}</strong> : option.label}
             </MenuItem>))}
         </TextField>
     </div>

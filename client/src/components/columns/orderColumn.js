@@ -30,7 +30,7 @@ function renderDetailPanel(rowData) {
     return Object.keys(rowData.orderPost[0]).map(function(key, index) {
         
         if (key !== 'orderStatus' && key !== '_id' && key !== 'pickupDate' && key !== 'email') {
-            return <div key={index}><h3>{`${key} : ${rowData.orderPost[0][key]}`}</h3></div>
+        return <div style={{marginLeft: '1rem'}} key={index}><h3 style={{color: '#4b2e83'}}>{key}</h3><p>{`${rowData.orderPost[0][key]}`}</p><hr></hr></div>
         }
         return null;
     })
@@ -48,7 +48,9 @@ function renderReturningUserDetailPanel(rowData) {
     return Object.keys(rowData.orderPost[0]).map(function(key, index) {
         
         if (key !== 'orderStatus' && key !== '_id' && key !== 'pickupDate' && key !== 'email' && key !== 'firstName' && key !== 'lastName') {
-            return <div key={index}><h3>{`${key} : ${rowData.orderPost[0][key]}`}</h3></div>
+            if (rowData.orderPost[0][key].length !== 0) {          
+                return <div style={{marginLeft: '1rem'}} key={index}><h3 style={{color: '#4b2e83'}}>{key}</h3><p>{`${rowData.orderPost[0][key]}`}</p><hr></hr></div>
+            }
         }
         return null;
     })

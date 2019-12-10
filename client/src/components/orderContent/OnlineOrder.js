@@ -10,15 +10,21 @@ import SnackBar from '../SnackBar';
 import { connect } from 'react-redux';
 import { createUser, offSnackBar } from '../../actions';
 import { socket } from '../../socket';
+import { reset } from 'redux-form';
 import '../../style.css';
 
 class OnlineOrder extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 1
+            page: 1,
+            householdNumber: 0
         }
         this.error = this.props.error;
+    }
+
+    componentWillUnmount() {
+        this.props.reset('orderForm')
     }
 
     nextPage = () => {
@@ -27,6 +33,10 @@ class OnlineOrder extends React.Component {
 
     previousPage = () => {
         this.setState({ page: this.state.page - 1});
+    }
+
+    setHouseholdNumber = number => {
+        this.setState({householdNumber: number})
     }
 
     onSubmit = async formValues => {    
@@ -50,7 +60,7 @@ class OnlineOrder extends React.Component {
                         <FormStepper activeStep={this.state.page - 1} />
                         {page === 1 && <AccountForm onSubmit={this.nextPage} form="orderForm"/>}
                         {page === 2 && <PersonalForm previousPage={this.previousPage} form="orderForm" onSubmit={this.nextPage} />}
-                        {page === 3 && <HouseholdForm previousPage={this.previousPage} form="orderForm" onSubmit={this.nextPage} />}
+                        {page === 3 && <HouseholdForm previousPage={this.previousPage} form="orderForm" setHouseholdNumber={this.setHouseholdNumber} householdNumber={this.state.householdNumber} onSubmit={this.nextPage} />}
                         {page === 4 && <OrderForm previousPage={this.previousPage} form="orderForm" onSubmit={this.onSubmit} />}
                     </div>
 
@@ -67,4 +77,4 @@ const mapStateToProps = state => {
     })
 }
 
-export default connect(mapStateToProps, {createUser, offSnackBar}) (OnlineOrder);
+export default connect(mapStateToProps, {createUser, offSnackBar, reset}) (OnlineOrder);

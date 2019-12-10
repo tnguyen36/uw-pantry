@@ -45,6 +45,7 @@ export const createUser = (formValues) => async dispatch => {
 export const createReturningUser = (formValues) => async dispatch => {
     const response = await axios.post('/users/returning', formValues);
     dispatch({type: 'CREATE_RETURNING_USER', payload: response.data});
+    dispatch({type: 'SUCCESS_SNACKBAR', payload: 'Successfully Registered!'});
     setTimeout(() => history.push('/'), 1300);
 }
 

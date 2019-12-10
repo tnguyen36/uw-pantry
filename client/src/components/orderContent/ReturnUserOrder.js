@@ -6,6 +6,7 @@ import SnackBar from '../SnackBar';
 import { connect } from 'react-redux';
 import { createReturningUser, offSnackBar } from '../../actions';
 import { socket } from '../../socket';
+import { reset } from 'redux-form';
 
 import '../../style.css';
 
@@ -15,8 +16,12 @@ class ReturnUserOrder extends React.Component {
         this.error = this.props.error;
     }
 
+    componentWillUnmount() {
+        this.props.reset('returnUserOrderForm');
+    }
+
     
-    onSubmit = async formValues => {    
+    onSubmit = async formValues => {
         await this.props.createReturningUser(formValues);
         socket.emit('newUser');
      }
@@ -48,4 +53,4 @@ const mapStateToProps = state => {
     })
 }
 
-export default connect(mapStateToProps, {createReturningUser, offSnackBar}) (ReturnUserOrder);
+export default connect(mapStateToProps, {createReturningUser, offSnackBar, reset}) (ReturnUserOrder);

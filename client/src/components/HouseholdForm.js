@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import '../style.css';
 
 
+
 const styles = makeStyles(theme => ({
     button: {
         marginTop: theme.spacing(3),
@@ -27,6 +28,8 @@ const styles = makeStyles(theme => ({
 }));
 
 const validateForm = (houseNumber, members) => {
+    console.log(houseNumber);
+    console.log(members)
     if (houseNumber > 0 && !members) {
         return true
     } else if (members) {
@@ -42,10 +45,10 @@ const validateForm = (houseNumber, members) => {
 
 const HouseholdForm = (props) => {
     const { handleSubmit, previousPage } = props;
-    const [houseNumber, setHouseNumber] = React.useState(0);
+    const houseNumber = props.householdNumber;
     const [members, setMembers] = React.useState([]);
     var error = validateForm(houseNumber, members);
-;   const classes = styles();
+   const classes = styles();
     return (
         <div>
             <Container maxWidth="sm">
@@ -54,7 +57,7 @@ const HouseholdForm = (props) => {
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3} direction="row"  alignItems="center">
                         <Grid item xs={12}>
-                            <Field name="householdNumber" onChange={(e) => setHouseNumber(e.target.value)} component={renderField} label="# of people in household (including self)" type="number"/>
+                            <Field name="householdNumber" onChange={(e) => props.setHouseholdNumber(e.target.value)} component={renderField} label="# of people in household (including self)" type="number"/>
                             {error && <h5 className={classes.errorText}>Please add members below according to this number</h5>}
                         </Grid>
                         <Grid item xs={12}>

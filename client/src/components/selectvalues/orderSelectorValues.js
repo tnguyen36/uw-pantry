@@ -1,5 +1,9 @@
 export const cannedCorn = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -10,6 +14,10 @@ export const cannedCorn = [
 ];
 
 export const protein = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: 'chicken',
         label: 'Chicken'
@@ -34,6 +42,10 @@ export const protein = [
 
 export const rice = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: 'yes',
         label: 'Yes'
     },
@@ -44,6 +56,10 @@ export const rice = [
 ];
 
 export const macCheese = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
@@ -56,6 +72,10 @@ export const macCheese = [
 
 export const peanutButter = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -66,6 +86,10 @@ export const peanutButter = [
 ];
 
 export const cannedTomato = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: 'diced',
         label: 'Diced'
@@ -78,6 +102,10 @@ export const cannedTomato = [
 
 export const peas = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -88,6 +116,10 @@ export const peas = [
 ];
 
 export const tomatoSoup = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
@@ -100,6 +132,10 @@ export const tomatoSoup = [
 
 export const cannedPears = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -110,6 +146,10 @@ export const cannedPears = [
 ];
 
 export const mixedFruit = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
@@ -122,6 +162,10 @@ export const mixedFruit = [
 
 export const cereal = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -132,6 +176,10 @@ export const cereal = [
 ];
 
 export const greens = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
@@ -144,6 +192,10 @@ export const greens = [
 
 export const oatmeal = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -154,6 +206,10 @@ export const oatmeal = [
 ];
 
 export const cornFlake = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
@@ -166,6 +222,10 @@ export const cornFlake = [
 
 export const cannedHam = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -176,6 +236,10 @@ export const cannedHam = [
 ];
 
 export const chickenSoup = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
@@ -188,6 +252,10 @@ export const chickenSoup = [
 
 export const kidneyBean = [
     {
+        value: null,
+        label: 'Choose'
+    },
+    {
         value: '1',
         label: '1'
     },
@@ -198,6 +266,10 @@ export const kidneyBean = [
 ];
 
 export const driedBean = [
+    {
+        value: null,
+        label: 'Choose'
+    },
     {
         value: '1',
         label: '1'
