@@ -12,6 +12,7 @@ import { createUser, offSnackBar } from '../../actions';
 import { socket } from '../../socket';
 import { reset } from 'redux-form';
 import '../../style.css';
+import { Helmet } from 'react-helmet';
 
 class OnlineOrder extends React.Component {
     constructor(props) {
@@ -51,6 +52,9 @@ class OnlineOrder extends React.Component {
         
         return (
             <div className="register-page">
+                <Helmet>
+                    <title>Online Order - New User</title>
+                </Helmet>
                 <Header location={window.location.pathname} />
                 <Container maxWidth="md">
                     <div className="form">                      

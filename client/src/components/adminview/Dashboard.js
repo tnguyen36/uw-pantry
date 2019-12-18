@@ -5,6 +5,7 @@ import { fetchUsers, fetchClassStandings, fetchDateGroups, fetchEthnicityGroups,
 import _ from 'lodash';
 import SnackBar from '../SnackBar';
 import { socket } from '../../socket';
+import { Helmet } from 'react-helmet';
 
 
 class Dashboard extends React.Component {
@@ -46,6 +47,9 @@ class Dashboard extends React.Component {
         } 
         return(
             <div>
+                <Helmet>
+                    <title>Dashboard</title>
+                </Helmet>
                  <AdminContent 
                     ethnicitiesLabels={this.props.ethnicitiesLabels} 
                     ethnicitiesValues={this.props.ethnicitiesValues} 

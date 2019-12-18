@@ -4,7 +4,7 @@ import { handleDrawer, fetchClassStandings, fetchEthnicityGroups, fetchUsers, fe
 import ReportContent from './ReportContent';
 import _ from 'lodash';
 import moment from 'moment';
-
+import { Helmet } from 'react-helmet';
 
 class ReportBoard extends React.Component {
 
@@ -31,6 +31,9 @@ class ReportBoard extends React.Component {
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>Report</title>
+                </Helmet>
                 <ReportContent toggleDrawer={this.toggleDrawer} drawerStatus={this.props.drawerStatus} getClassStandings={this.getClassStandings} classStandingsValues={this.props.classStandingsValues} classStandingsLabels={this.props.classStandingsLabels} ethnicitiesValues={this.props.ethnicitiesValues} ethnicitiesLabels={this.props.ethnicitiesLabels} users={this.props.users} inventoryPosts={this.props.inventoryPosts} positiveDaily={this.props.positiveDaily} negativeDaily={this.props.negativeDaily} />
             </div>
         )

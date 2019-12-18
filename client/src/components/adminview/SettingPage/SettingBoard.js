@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { handleDrawer } from '../../../actions';
 import SettingContent from './SettingContent';
-import axios from 'axios'
+import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 class SettingBoard extends React.Component {
     state = {accessCode: ''};
@@ -29,6 +30,9 @@ class SettingBoard extends React.Component {
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>Settings</title>
+                </Helmet>
                 <SettingContent drawerStatus={this.props.drawerStatus} toggleDrawer={this.toggleDrawer} code={this.state.accessCode} changeAccessCode={this.changeAccessCode} />
             </div>
         )

@@ -2,7 +2,7 @@ import React from 'react';
 import InventoryContent from './InventoryContent';
 import { connect } from 'react-redux';
 import { handleDrawer, createInventoyPost, fetchInventoryPosts, deleteInventoryPost, fetchPositiveDailyInventory, fetchNegativeDailyInventory } from '../../../actions';
-
+import { Helmet } from 'react-helmet';
 
 class InventoryBoard extends React.Component {
 
@@ -34,6 +34,9 @@ class InventoryBoard extends React.Component {
         } else {
             return (
                 <div>
+                    <Helmet>
+                        <title>Inventory</title>
+                    </Helmet>
                     <InventoryContent 
                         toggleDrawer={this.toggleDrawer} 
                         drawerStatus={this.props.drawerStatus} 

@@ -13,6 +13,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles(theme => ({
     heroContent: {
@@ -73,6 +74,9 @@ const Home = (props) => {
 
     return (
         <div className="register-page">
+            <Helmet>
+                <title>UWT Pantry</title>
+            </Helmet>
             <Header location={window.location.pathname} />
             <div className={classes.heroContent}>
             <Container maxWidth="md">

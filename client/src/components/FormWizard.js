@@ -12,6 +12,7 @@ import '../style.css';
 import history from '../history';
 import { socket } from '../socket';
 import { reset } from 'redux-form';
+import { Helmet } from 'react-helmet';
 
 
 class FormWizard extends React.Component {
@@ -59,6 +60,9 @@ class FormWizard extends React.Component {
         const { page } = this.state;  
         return (
             <div className="register-page">
+                <Helmet>
+                    <title>In Store - New User</title>
+                </Helmet>
                 <Header location={window.location.pathname} />
                 <Container maxWidth="md">
                     <div className="form">                      

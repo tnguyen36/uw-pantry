@@ -4,6 +4,7 @@ import SnackBar from '../SnackBar';
 import { connect } from 'react-redux';
 import { onSignIn, offSnackBar } from '../../actions';
 import Header from '../Header';
+import { Helmet } from 'react-helmet';
 
 
 class SignInPage extends React.Component {
@@ -15,6 +16,9 @@ class SignInPage extends React.Component {
     render() {
         return (
             <div className="register-page">
+                <Helmet>
+                    <title>Admin Login</title>
+                </Helmet>
                 <Header location={window.location.pathname} />
                 <StudentLoginForm onSubmit={this.onSubmit} />
                 {this.props.error.toggleSnackBar && <SnackBar offSnackBar={this.props.offSnackBar} variant={this.props.error.variant} description={this.props.error.description} />}

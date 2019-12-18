@@ -3,7 +3,7 @@ import OrderContent from './OrderContent';
 import { connect } from 'react-redux';
 import { handleDrawer, fetchUsers, processOrder, fetchReturningUsers, processReturningUserOrder } from '../../../actions';
 import { socket } from '../../../socket';
-
+import { Helmet } from 'react-helmet';
 
 class OrderBoard extends React.Component {
 
@@ -33,6 +33,9 @@ class OrderBoard extends React.Component {
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>Online Order</title>
+                </Helmet>
                 <OrderContent 
                     toggleDrawer={this.toggleDrawer} 
                     drawerStatus={this.props.drawerStatus} 

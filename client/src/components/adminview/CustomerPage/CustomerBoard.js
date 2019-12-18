@@ -3,6 +3,7 @@ import CustomerContent from './CustomerContent';
 import { connect } from 'react-redux';
 import { handleDrawer, fetchUsers, transferUser } from '../../../actions';
 import { socket } from '../../../socket';
+import { Helmet } from 'react-helmet';
 
 
 class CustomerBoard extends React.Component {
@@ -31,6 +32,9 @@ class CustomerBoard extends React.Component {
     render() {
         return (
             <div>
+                <Helmet>
+                    <title>Customers</title>
+                </Helmet>
                 <CustomerContent 
                     toggleDrawer={this.toggleDrawer} 
                     drawerStatus={this.props.drawerStatus} 
