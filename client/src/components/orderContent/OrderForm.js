@@ -46,12 +46,25 @@ const OrderForm = (props) => {
             <Container maxWidth="md">
                 <h4 className="form-step-title">Order Information</h4>
                 <h4 className="step-label">{`Step ${window.location.pathname === '/order/returning' ? '1' : '4'} / ${window.location.pathname === '/order/returning' ? '1' : '4'}`}</h4>
-                <p>Please note: The items available below are the items we consistently have in the Pantry and do not reflect all donated food/hygiene items available. For maximum selection, 
-                    please visit the Pantry during drop-in shopping hours reflected below or email the Pantry at pantry@uw.edu or call 253-692-4765. Orders will be fulfilled based on items 
-                    available.
-                </p>
+               
+               
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3} direction="row">
+                        {window.location.pathname === '/order/returning' && <Grid item xs={6}>
+                            <Field name="orderPost.firstName" component={renderField} type="text" label="First Name" />
+                        </Grid>}
+                       {window.location.pathname === '/order/returning' && <Grid item xs={6}>
+                            <Field name="orderPost.lastName" component={renderField} type="text" label="Last Name"  />
+                        </Grid>}
+                        <Grid item xs={12}>
+                            <Field name="orderPost.email" component={renderField} type="email" label="UW Email" />
+                            <p><strong>Please note:</strong> The items available below are the items we consistently have in the Pantry and do not reflect all donated food/hygiene items available. For maximum selection, 
+                            please visit the Pantry during drop-in shopping hours reflected below or email the Pantry at pantry@uw.edu or call 253-692-4765. Orders will be fulfilled based on items 
+                            available.
+                            </p>
+                        </Grid>
+                
+                       
                         <Grid item xs={4}>
                             <Field name="orderPost.cannedCorn" component={renderSelectField} label="Canned Corn" selectValues={cannedCorn}/>
                         </Grid>
@@ -145,18 +158,11 @@ const OrderForm = (props) => {
                             <h4 className="form-step-title">Contact Us</h4>
                             <p>Please direct any questions, concerns or suggestions to Nedralain Mailo at mailon@uw.edu</p>
                         </Grid>
-                       {window.location.pathname === '/order/returning' && <Grid item xs={6}>
-                            <Field name="orderPost.firstName" component={renderField} type="text" label="First Name" />
-                        </Grid>}
-                       {window.location.pathname === '/order/returning' && <Grid item xs={6}>
-                            <Field name="orderPost.lastName" component={renderField} type="text" label="Last Name"  />
-                        </Grid>}
+                      
                         <Grid item xs={6}>
-                            <Field name="orderPost.pickupDate" component={renderField} type="datetime-local" value="2017-05-24T10:30" />
+                            <Field name="orderPost.pickupDate" component={renderField} type="datetime-local" label="Pick-up Time" value="2017-05-24T10:30" />
                         </Grid>
-                        <Grid item xs={6}>
-                            <Field name="orderPost.email" component={renderField} type="email" label="UW Email" />
-                        </Grid>
+                       
 
                     </Grid>
                         <div className={classes.buttons}>

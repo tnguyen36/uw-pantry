@@ -49,6 +49,11 @@ export default function LineGraph(props) {
                   style: {
                       fontSize: '12px'
                   }
+              },
+              labels: {
+                  formatter: function (value) {
+                      return value
+                  }
               }
           },
           colors: [props.lineColor],
