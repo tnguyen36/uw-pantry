@@ -135,7 +135,7 @@ const InventoryContent = (props) => {
                         </Grid>
                    
                     <Grid item xs={12}>
-                      <LineGraph dateGroups={props.inventoryPosts} getDataSet={getTotalDataSet} title={"Overall Weight Trend - " +  new Date().getFullYear()} tooltipLabel="M/d, h:mm tt" yaxisLabel="Pound (lb)" dataSetLabel="Current Weight" lineColor="#4b2e83" />
+                      <LineGraph dateGroups={props.inventoryPosts} getDataSet={getTotalDataSet} title="Overall Weight Trend" tooltipLabel="M/d, h:mm tt" yaxisLabel="Pound (lb)" dataSetLabel="Current Weight" lineColor="#4b2e83" />
                     </Grid>
                     <Grid item xs={6}>
                       <LineGraph dateGroups={props.positiveDaily} getDataSet={getDataSet} title={"Incoming Donation - " + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()} tooltipLabel="MMMM d yyyy" yaxisLabel="Pound (lb)" dataSetLabel="Total Weight Gain" lineColor="#32CD32" />
