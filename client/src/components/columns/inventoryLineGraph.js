@@ -24,11 +24,11 @@ export function getDataSet(dateGroups) {
 export function getTotalDataSet(dateGroups) {
     var result = [];
     for (var i = 0; i < dateGroups.length; i++) {
-        if (new Date(dateGroups[i].postedDate).getFullYear() === year) {
+        
         var time = Date.parse(dateGroups[i].postedDate);
         var data = dateGroups[i].currentWeight;
         result.push([time,data]);
-        }
+        
     }
     return result;
 }
