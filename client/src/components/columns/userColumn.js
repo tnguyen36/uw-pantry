@@ -23,7 +23,7 @@ export const detailPanel = (rowData) => {
                 <h4 style={{display: 'inline', marginRight: '1.5rem', marginLeft: '1rem'}}>{`Household Member ${index + 1}`}</h4>
                 <h5 style={{display: 'inline', marginRight: '2.5rem'}}>First Name: <span style={{fontWeight: 'normal'}}>{link.firstName}</span></h5>
                 <h5 style={{display: 'inline', marginRight: '2.5rem'}}>Race: <span style={{fontWeight: 'normal'}}>{link.race}</span></h5>
-                <h5 style={{display: 'inline'}}>Birthdate: <span style={{fontWeight: 'normal'}}>{moment(link.birthDate).format("MM/DD/YY")}</span></h5>
+                <h5 style={{display: 'inline'}}>Birthdate: <span style={{fontWeight: 'normal'}}>{moment(link.birthDay).format("MM/DD/YY")}</span></h5>
               
             </div>                          
         );                  
