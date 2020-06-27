@@ -71,7 +71,7 @@ app.get("/admin", function(req, res) {
 });
 
 app.post("/admin/code", function(req, res) {
-    Admin.updateOne({username: 'pantry@uw.edu'}, {$set:{accessCode: req.body.accessCode}}, function(err) {
+    Admin.updateOne({username: 'test@uw.edu'}, {$set:{accessCode: req.body.accessCode}}, function(err) {
         if (err) {
             console.log(err)
         } else {
@@ -81,7 +81,7 @@ app.post("/admin/code", function(req, res) {
 });
 
 app.get("/admin/code", function(req, res) {
-    Admin.findOne({username: 'pantry@uw.edu'}, function(err, admin) {
+    Admin.findOne({username: 'test@uw.edu'}, function(err, admin) {
         if (err) {
             console.log(err)
         } else {
@@ -95,7 +95,7 @@ app.post("/token", function(req, res) {
         if (err) {
             res.send(false)
         } else {
-            decoded.username === 'pantry@uw.edu' ? res.send(true) : res.send(false);
+            decoded.username === 'test@uw.edu' ? res.send(true) : res.send(false);
         }
     });
 });
